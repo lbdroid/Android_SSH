@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<dimen name="drawer_width">200dp</dimen>
+	<dimen name="exp_indicator_width">30dp</dimen>
+	<dimen name="exp_indicator_padding">5dp</dimen>
+	<dimen name="orders_status_menu_button_size">200dp</dimen>
+	<dimen name="orders_status_menu_button_margin">8dp</dimen>
+	<dimen name="orders_status_menu_outer_padding">8dp</dimen>
+	<dimen name="orders_status_menu_button_cornerRadius">2dp</dimen>
+	<dimen name="orders_status_menu_button_cardElevation">5dp</dimen>
+	<dimen name="orders_status_menu_button_outsetSize">10dp</dimen>
+	<dimen name="orders_status_menu_cancel_spaceSize">20dp</dimen>
+</resources>

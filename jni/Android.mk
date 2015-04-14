@@ -175,21 +175,18 @@ LOCAL_SHARED_LIBRARIES += libopenssh libssl libcrypto libdl libz
 
 include $(BUILD_EXECUTABLE)
 
-###################### sshd_config ######################
+###################### voodoo ######################
 
-include $(CLEAR_VARS)
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE := sshd_config
-LOCAL_MODULE_CLASS := ETC
-#LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/ssh
-LOCAL_SRC_FILES := sshd_config.android
-include $(BUILD_PREBUILT)
-
-###################### start-ssh ######################
-
-include $(CLEAR_VARS)
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE := start-ssh
-LOCAL_MODULE_CLASS := EXECUTABLES
-LOCAL_SRC_FILES := start-ssh
-include $(BUILD_PREBUILT)
+all:
+	rm -rf $(OLD_PATH)/../assets/*
+	mkdir -p $(OLD_PATH)/../assets/bin
+	mkdir $(OLD_PATH)/../assets/etc
+	cp $(OLD_PATH)/sshd_config.android $(OLD_PATH)/../assets/etc/sshd_config
+	cp $(OLD_PATH)/start-ssh $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi/gzip $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi/scp $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi/sftp $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi/sftp-server $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi/ssh $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi/sshd $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi/ssh-keygen $(OLD_PATH)/../assets/bin/
