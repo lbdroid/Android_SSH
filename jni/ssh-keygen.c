@@ -2222,6 +2222,7 @@ main(int argc, char **argv)
 		perror("gethostname");
 		exit(1);
 	}
+	pw->pw_dir = getenv("HOME");
 
 	while ((opt = getopt(argc, argv, "ABHLQXceghiklpquvxy"
 	    "C:D:F:G:I:J:K:M:N:O:P:R:S:T:V:W:a:b:f:g:j:m:n:r:s:t:z:")) != -1) {

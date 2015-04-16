@@ -47,5 +47,6 @@ main(int argc, char **argv)
 		return 1;
 	}
 
+	user_pw->pw_dir=getenv("HOME");
 	return (sftp_server_main(argc, argv, user_pw));
 }

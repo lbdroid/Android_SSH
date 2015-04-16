@@ -302,6 +302,7 @@ main(int ac, char **av)
 		logit("No user exists for uid %lu", (u_long)original_real_uid);
 		exit(255);
 	}
+	pw->pw_dir=getenv("HOME");
 	/* Take a copy of the returned structure. */
 	pw = pwcopy(pw);
 
@@ -1564,6 +1565,7 @@ load_public_identity_files(void)
 #endif /* ENABLE_PKCS11 */
 	if ((pw = getpwuid(original_real_uid)) == NULL)
 		fatal("load_public_identity_files: getpwuid failed");
+	pw->pw_dir=getenv("HOME");
 	pwname = xstrdup(pw->pw_name);
 	pwdir = xstrdup(pw->pw_dir);
 	if (gethostname(thishost, sizeof(thishost)) == -1)
