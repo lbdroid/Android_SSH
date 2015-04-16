@@ -11,6 +11,7 @@ import com.stericson.RootShell.execution.Command;
 
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -60,6 +61,10 @@ public class Main extends ActionBarActivity {
 				}
 			}
 		});
+		
+		((Button)findViewById(R.id.install_dangerous)).setEnabled(false);
+		
+		((DrawerLayout)findViewById(R.id.main_drawer)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 	}
 	
 	private void copyAssets(String dir) {

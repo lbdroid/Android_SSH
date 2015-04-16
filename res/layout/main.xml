@@ -1,7 +1,7 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:id="@+id/orderhub_drawer"
+	android:id="@+id/main_drawer"
 	android:background="@color/toolbarPrimary"
 	android:fitsSystemWindows="true" >
 
@@ -11,27 +11,31 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent" >
 	    <include layout="@layout/toolbar"/>
-		<FrameLayout
-    		android:id="@+id/content_container"
-    		android:layout_width="match_parent"
-    		android:layout_height="match_parent" >
-    		<LinearLayout 
+
+    		<LinearLayout
     		    android:layout_width="match_parent"
     		    android:layout_height="match_parent"
+    		    android:paddingLeft="20dp"
+    		    android:paddingRight="20dp"
     		    android:background="#ffffffff"
     		    android:orientation="vertical" >
+    		    <TextView 
+    		        android:layout_width="match_parent"
+    		        android:layout_height="wrap_content"
+    		        android:padding="30dp"
+    		        android:text="@string/shpiel"/>
     		    <Button
     		        android:id="@+id/install_safe"
     		        android:layout_height="wrap_content"
     		        android:layout_width="wrap_content"
-    		        android:text="Install Safe" />
+    		        android:text="@string/btn_safe" />
     		    <Button
     		        android:id="@+id/install_dangerous"
     		        android:layout_height="wrap_content"
     		        android:layout_width="wrap_content"
-    		        android:text="Install DANGEROUS" />
+    		        android:text="@string/btn_danger" />
     		</LinearLayout>
-    	</FrameLayout>
+
 	
 	</LinearLayout>
 	
