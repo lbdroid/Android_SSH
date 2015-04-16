@@ -43,7 +43,7 @@ PRIVATE_C_INCLUDES := $(LOCAL_PATH)/external/openssl/openbsd-compat $(LOCAL_PATH
 
 LOCAL_SHARED_LIBRARIES += libssl libcrypto libdl libz
 
-LOCAL_MODULE := libopenssh
+LOCAL_MODULE := libssh
 
 LOCAL_CFLAGS+=-O3
 
@@ -60,12 +60,12 @@ LOCAL_SRC_FILES := \
     sshconnect.c sshconnect1.c sshconnect2.c mux.c \
     roaming_common.c roaming_client.c
 
-LOCAL_MODULE := ssh
+LOCAL_MODULE := _ssh
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/external/openssl/include $(LOCAL_PATH)/include
 PRIVATE_C_INCLUDES := $(LOCAL_PATH)/external/openssl/openbsd-compat $(LOCAL_PATH)/include
 
-LOCAL_SHARED_LIBRARIES += libopenssh libssl libcrypto libdl libz
+LOCAL_SHARED_LIBRARIES += libssh libssl libcrypto libdl libz
 
 include $(BUILD_EXECUTABLE)
 
@@ -83,7 +83,7 @@ LOCAL_MODULE := sftp
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/external/openssl/include $(LOCAL_PATH)/include
 PRIVATE_C_INCLUDES := $(LOCAL_PATH)/external/openssl/openbsd-compat $(LOCAL_PATH)/include
 
-LOCAL_SHARED_LIBRARIES += libopenssh libssl libcrypto libdl libz
+LOCAL_SHARED_LIBRARIES += libssh libssl libcrypto libdl libz
 
 include $(BUILD_EXECUTABLE)
 
@@ -101,7 +101,7 @@ LOCAL_MODULE := scp
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/external/openssl/include $(LOCAL_PATH)/include
 PRIVATE_C_INCLUDES := $(LOCAL_PATH)/external/openssl/openbsd-compat $(LOCAL_PATH)/include
 
-LOCAL_SHARED_LIBRARIES += libopenssh libssl libcrypto libdl libz
+LOCAL_SHARED_LIBRARIES += libssh libssl libcrypto libdl libz
 
 include $(BUILD_EXECUTABLE)
 
@@ -135,7 +135,7 @@ LOCAL_MODULE := sshd
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/external/openssl/include external/zlib $(LOCAL_PATH)/include
 PRIVATE_C_INCLUDES := $(LOCAL_PATH)/external/openssl/openbsd-compat $(LOCAL_PATH)/include
 
-LOCAL_SHARED_LIBRARIES += libopenssh libssl libcrypto libdl libz
+LOCAL_SHARED_LIBRARIES += libssh libssl libcrypto libdl libz
 
 include $(BUILD_EXECUTABLE)
 
@@ -153,7 +153,7 @@ LOCAL_MODULE := sftp-server
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/external/openssl/include $(LOCAL_PATH)/include
 PRIVATE_C_INCLUDES := $(LOCAL_PATH)/external/openssl/openbsd-compat $(LOCAL_PATH)/include
 
-LOCAL_SHARED_LIBRARIES += libopenssh libssl libcrypto libdl libz
+LOCAL_SHARED_LIBRARIES += libssh libssl libcrypto libdl libz
 
 include $(BUILD_EXECUTABLE)
 
@@ -171,7 +171,7 @@ LOCAL_MODULE := ssh-keygen
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/external/openssl/include $(LOCAL_PATH)/include
 PRIVATE_C_INCLUDES := $(LOCAL_PATH)/external/openssl/openbsd-compat $(LOCAL_PATH)/include
 
-LOCAL_SHARED_LIBRARIES += libopenssh libssl libcrypto libdl libz
+LOCAL_SHARED_LIBRARIES += libssh libssl libcrypto libdl libz
 
 include $(BUILD_EXECUTABLE)
 
@@ -187,6 +187,6 @@ all:
 	cp $(OLD_PATH)/../libs/armeabi/scp $(OLD_PATH)/../assets/bin/
 	cp $(OLD_PATH)/../libs/armeabi/sftp $(OLD_PATH)/../assets/bin/
 	cp $(OLD_PATH)/../libs/armeabi/sftp-server $(OLD_PATH)/../assets/bin/
-	cp $(OLD_PATH)/../libs/armeabi/ssh $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi/_ssh $(OLD_PATH)/../assets/bin/ssh
 	cp $(OLD_PATH)/../libs/armeabi/sshd $(OLD_PATH)/../assets/bin/
 	cp $(OLD_PATH)/../libs/armeabi/ssh-keygen $(OLD_PATH)/../assets/bin/
