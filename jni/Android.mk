@@ -190,3 +190,4 @@ all:
 	cp $(OLD_PATH)/../libs/armeabi/_ssh $(OLD_PATH)/../assets/bin/ssh
 	cp $(OLD_PATH)/../libs/armeabi/sshd $(OLD_PATH)/../assets/bin/
 	cp $(OLD_PATH)/../libs/armeabi/ssh-keygen $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi/openssl $(OLD_PATH)/../assets/bin/
