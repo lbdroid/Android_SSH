@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">RabidBeaver SSH</string>
-    <string name="shpiel">This is currently a command installer, it will not provide a shell. Only the \'SAFE\' button does anything yet. Nothing works in the menu. Intended for factory Android installs &#8212; most custom builds will probably have part of this or dropbear included. Requires root access AND busybox. Intention is to grow this to configure and launch sshd service. ONLY obtain from http://github.com/lbdroid, every other source has been compromised by hackers of the east, or the NSA.</string>
     <string name="btn_safe">Install Safe</string>
     <string name="btn_danger">Install DANGEROUS</string>
+    <string name="btn_set_auth_keyfile">Set keyfile</string>
+    <string name="label_auth_keys">authorized_keys:</string>
+    <string name="btn_startsshd">Start SSHD</string>
+    <string name="btn_stopsshd">Stop SSHD</string>
+    <string name="btn_restartsshd">Restart SSHD</string>
+    <string name="label_ip">IP Addresses:</string>
 </resources>

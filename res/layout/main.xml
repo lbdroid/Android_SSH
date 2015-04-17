@@ -19,11 +19,33 @@
     		    android:paddingRight="20dp"
     		    android:background="#ffffffff"
     		    android:orientation="vertical" >
-    		    <TextView 
-    		        android:layout_width="match_parent"
-    		        android:layout_height="wrap_content"
-    		        android:padding="30dp"
-    		        android:text="@string/shpiel"/>
+				<LinearLayout
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    style="?android:attr/buttonBarStyle"
+				    android:orientation="horizontal">
+				    <Button
+				        android:id="@+id/startsshd"
+				        android:layout_height="wrap_content"
+    		        	android:layout_width="0dp"
+    		        	android:layout_weight="1"
+    		        	style="?android:attr/buttonBarButtonStyle"
+    		        	android:text="@string/btn_startsshd" />
+				    <Button
+				        android:id="@+id/stopsshd"
+				        android:layout_height="wrap_content"
+    		        	android:layout_width="0dp"
+    		        	android:layout_weight="1"
+    		        	style="?android:attr/buttonBarButtonStyle"
+    		        	android:text="@string/btn_stopsshd" />
+				    <Button
+				        android:id="@+id/restartsshd"
+				        android:layout_height="wrap_content"
+    		        	android:layout_width="0dp"
+    		        	android:layout_weight="1"
+    		        	style="?android:attr/buttonBarButtonStyle"
+    		        	android:text="@string/btn_restartsshd" />
+				</LinearLayout>
     		    <Button
     		        android:id="@+id/install_safe"
     		        android:layout_height="wrap_content"
@@ -34,6 +56,42 @@
     		        android:layout_height="wrap_content"
     		        android:layout_width="wrap_content"
     		        android:text="@string/btn_danger" />
+    		    <View
+    		        android:layout_width="match_parent"
+    		        android:layout_height="20dp" />
+    		    <TextView
+    		        android:layout_height="wrap_content"
+    		        android:layout_width="match_parent"
+    		        android:labelFor="@+id/auth_keys"
+    		        android:textStyle="bold"
+    		        android:text="@string/label_auth_keys" />
+    		    <EditText
+    		        android:id="@+id/auth_keys"
+    		        android:layout_width="match_parent"
+    		        android:layout_height="200dp"
+    		        android:gravity="top"
+    		        android:inputType="textMultiLine"/>
+    		    <Button
+    		        android:id="@+id/set_keys"
+    		        android:layout_width="wrap_content"
+    		        android:layout_height="wrap_content"
+    		        android:text="@string/btn_set_auth_keyfile" />
+    		    <View
+    		        android:layout_width="match_parent"
+    		        android:layout_height="20dp" />
+    		    <TextView
+    		        android:layout_height="wrap_content"
+    		        android:layout_width="match_parent"
+    		        android:labelFor="@+id/ip_field"
+    		        android:textStyle="bold"
+    		        android:text="@string/label_ip" />
+    		    <EditText
+    		        android:id="@+id/ip_field"
+    		        android:layout_width="match_parent"
+    		        android:layout_height="wrap_content"
+    		        android:gravity="top"
+    		        android:inputType="textMultiLine"
+    		        android:focusable="false"/>
     		</LinearLayout>
 
 	
