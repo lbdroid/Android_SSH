@@ -5,7 +5,7 @@
     <item name="darkred" type="color">#FFCC0000</item>
     <item name="gray" type="color">#FFEEEEEE</item>
     <item name="white" type="color">#FFFFFFFF</item>
-	<item name="drawerBackground" type="color">#FFB9F2FF</item>
+	<item name="drawerBackground" type="color">#FFFFFFFF</item>
 	<item name="drawerSelectedItem" type="color">#FFEEEEEE</item>
 	<item name="notStartedStatus" type="color">#FFCCCCCC</item>
 	<item name="startedStatus" type="color">#FF0000FF</item>

@@ -8,4 +8,9 @@
     <string name="btn_stopsshd">Stop SSHD</string>
     <string name="btn_restartsshd">Restart SSHD</string>
     <string name="label_ip">IP Addresses:</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="shpiel">This is OpenSSH, hacked special for Android. The first step is command installation. In the settings menu, press the "Install safe" button. This will add the necessary libraries and commands to your device. YOU MUST HAVE ROOT ACCESS, and BUSYBOX BINARIES installed for this to work. Android doesn\'t use user passwords, so it isn\'t possible to log in to SSH using a password. It is necessary to add yourself a public key. You can generate this on your workstation using the "ssh-keygen" command, and copy it (the pub key, not the private) to the authorized_keys field. You can add as many keys as you like, one per line. When complete, press the "set keyfile" button. Use start/stop/restart buttons to control the state of sshd. You do NOT need to remain in the application for sshd to continue running. sshd is NOT subject to android\'s application kill policies. The only safe place to obtain this application is http://github.com/lbdroid/Android_SSH. If you found it anywhere else, then it has been compromised by eastern hackers or the NSA.</string>
 </resources>
