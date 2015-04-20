@@ -12,5 +12,27 @@
     <string name="about">About</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="shpiel">This is OpenSSH, hacked special for Android. The first step is command installation. In the settings menu, press the "Install safe" button. This will add the necessary libraries and commands to your device. YOU MUST HAVE ROOT ACCESS, and BUSYBOX BINARIES installed for this to work. Android doesn\'t use user passwords, so it isn\'t possible to log in to SSH using a password. It is necessary to add yourself a public key. You can generate this on your workstation using the "ssh-keygen" command, and copy it (the pub key, not the private) to the authorized_keys field. You can add as many keys as you like, one per line. When complete, press the "set keyfile" button. Use start/stop/restart buttons to control the state of sshd. You do NOT need to remain in the application for sshd to continue running. sshd is NOT subject to android\'s application kill policies. The only safe place to obtain this application is http://github.com/lbdroid/Android_SSH. If you found it anywhere else, then it has been compromised by eastern hackers or the NSA.</string>
+    <string name="shpiel">\u0020This contains OpenSSH, hacked special for Android.\n
+\n
+The first thing to note, is that this is NOT a shell. This application does not store logins. This application does not provide you with a "direct" interface to log into an SSH server.\n
+\n
+The second thing to note, is that this REQUIRES both root access to your device, as well as busybox. If you don\'t know what either of those are, then this application is definitely not for you. Uninstall and move along...\n
+\n
+This application has two functions;\n
+1) Installation of OpenSSH (and related) binaries to your system. Specifically, ssh, sshd, sftp, sftp-server, scp, ssh-keygen, openssl, and gzip. gzip wasn\'t the objective, but being a dependency, it came along for the ride.\n
+2) Simple control over sshd.\n
+\n
+First thing, obviously, is installation. Open the "Settings" menu, and press "INSTALL SAFE". It should prompt you for root authorization, and then install all applicable commands and libraries to your system.\n
+\n
+Once installed, the commands mentioned will be accessible through any shell, such as Android Terminal Emulator, or adb.\n
+\n
+Android Terminal Emulator sets a custom application home directory $HOME to within its own data directory. As a result, it is able to store ssh data and configurations just like on any other Linux system. Other applications typically will NOT set a HOME directory, and as a result, will share root\'s data home directory of /data. They will NOT be able to store data or configurations unless you manually set a home directory using "export HOME=/path/to/home" to some path writable by that application.\n
+\n
+The main interface window:\n
+First row provides sshd start, stop, and restart service buttons. Once the commands have been installed, these buttons will work.\n
+Due to the fact that Android does not provide a console password manager, it is not possible to provide password login for sshd. It will be necessary to install public keys from other devices/users for whom access will be granted. These public keys can be added to the authorized_keys text field. When installing a new authorized_key, it is NOT necessary to restart sshd.\n
+\n
+Note that sshd operates at a console level independent of this application. If you leave this application, or even force kill it, sshd will continue to operate in the background. If you do not want this, don\'t forget to stop sshd before leaving.\n
+\n
+The only safe place to obtain this application is http://github.com/lbdroid/Android_SSH. If you found it anywhere else, then it has been compromised by eastern hackers or the NSA.</string>
 </resources>

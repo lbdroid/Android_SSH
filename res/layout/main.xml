@@ -18,87 +18,95 @@
 		    android:id="@+id/content_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ffffffff"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
+        	<LinearLayout
+	            android:layout_width="match_parent"
+            	android:layout_height="match_parent"
+            	android:background="#ffffffff"
+            	android:orientation="vertical"
+            	android:paddingLeft="20dp"
+            	android:paddingRight="20dp" >
 
-            <LinearLayout
-                style="?android:attr/buttonBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+            	<LinearLayout
+	                style="?android:attr/buttonBarStyle"
+                	android:layout_width="match_parent"
+                	android:layout_height="wrap_content"
+                	android:orientation="horizontal" >
+	
+    	            <Button
+                    	android:id="@+id/startsshd"
+                    	style="?android:attr/buttonBarButtonStyle"
+                    	android:layout_width="0dp"
+                    	android:layout_height="wrap_content"
+                    	android:layout_weight="1"
+                    	android:text="@string/btn_startsshd" />
 
-                <Button
-                    android:id="@+id/startsshd"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/btn_startsshd" />
+                	<Button
+                    	android:id="@+id/stopsshd"
+                    	style="?android:attr/buttonBarButtonStyle"
+                    	android:layout_width="0dp"
+                    	android:layout_height="wrap_content"
+                    	android:layout_weight="1"
+                    	android:text="@string/btn_stopsshd" />
 
-                <Button
-                    android:id="@+id/stopsshd"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/btn_stopsshd" />
+                	<Button
+                    	android:id="@+id/restartsshd"
+                    	style="?android:attr/buttonBarButtonStyle"
+                    	android:layout_width="0dp"
+                    	android:layout_height="wrap_content"
+                    	android:layout_weight="1"
+                    	android:text="@string/btn_restartsshd" />
+            	</LinearLayout>
+            	<View
+                	android:layout_width="match_parent"
+                	android:layout_height="20dp" />
+				<ScrollView
+			    	android:layout_width="match_parent"
+			    	android:layout_height="match_parent" >
+                	<LinearLayout
+                    	android:layout_width="match_parent"
+                    	android:layout_height="wrap_content"
+                    	android:orientation="vertical" >
+            			<TextView
+                			android:layout_width="match_parent"
+                			android:layout_height="wrap_content"
+                			android:labelFor="@+id/auth_keys"
+                			android:text="@string/label_auth_keys"
+                			android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/restartsshd"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/btn_restartsshd" />
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
+            			<EditText
+                			android:id="@+id/auth_keys"
+                			android:layout_width="match_parent"
+                			android:layout_height="200dp"
+                			android:gravity="top"
+                			android:inputType="textMultiLine" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:labelFor="@+id/auth_keys"
-                android:text="@string/label_auth_keys"
-                android:textStyle="bold" />
+            			<Button
+                			android:id="@+id/set_keys"
+                			android:layout_width="wrap_content"
+                			android:layout_height="wrap_content"
+                			android:text="@string/btn_set_auth_keyfile" />
 
-            <EditText
-                android:id="@+id/auth_keys"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:gravity="top"
-                android:inputType="textMultiLine" />
+		            	<View
+                			android:layout_width="match_parent"
+                			android:layout_height="20dp" />
+		
+            			<TextView
+                			android:layout_width="match_parent"
+                			android:layout_height="wrap_content"
+                			android:labelFor="@+id/ip_field"
+                			android:text="@string/label_ip"
+                			android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/set_keys"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_set_auth_keyfile" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:labelFor="@+id/ip_field"
-                android:text="@string/label_ip"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/ip_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:gravity="top"
-                android:inputType="textMultiLine" />
-        </LinearLayout>
+            			<EditText
+                			android:id="@+id/ip_field"
+                			android:layout_width="match_parent"
+                			android:layout_height="wrap_content"
+                			android:focusable="false"
+                			android:gravity="top"
+                			android:inputType="textMultiLine" />
+            		</LinearLayout>
+            	</ScrollView>
+        	</LinearLayout>
         </FrameLayout>
     </LinearLayout>
 

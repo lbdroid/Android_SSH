@@ -14,7 +14,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -36,20 +35,19 @@ public class Main extends ActionBarActivity {
 	private AboutFragment aboutFragment;
 	private SettingsFragment settingsFragment;
 	private RelativeLayout optionsList;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
 		fManager = getSupportFragmentManager();
-		
+
 		toolbar = (Toolbar)findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        //getSupportActionBar().setDisplayShowHomeEnabled(true);
         
         drawerl = (DrawerLayout)findViewById(R.id.main_drawer);
         drawerToggle = new ActionBarDrawerToggle(this,drawerl,toolbar,R.string.drawer_open,R.string.drawer_close){
@@ -61,14 +59,15 @@ public class Main extends ActionBarActivity {
                 invalidateOptionsMenu(); //creates call to onPrepareOptionsMenu()
             }
         };
-        //drawerToggle.setDrawerIndicatorEnabled(true);
-
-/*        drawerl.post(new Runnable() {
-            @Override
-            public void run() {
-                drawerToggle.syncState();
-            }
-        });*/
+        drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				fManager.popBackStack();
+				if(toolbar != null)toolbar.setTitle("RabidBeaver SSH");
+				drawerl.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+				drawerToggle.setDrawerIndicatorEnabled(true);
+			}
+        });
         
         drawerl.setDrawerListener(drawerToggle);
 
@@ -272,28 +271,20 @@ public class Main extends ActionBarActivity {
 	}
 	
 	private void selectDrawerItem(int option){
-		
-		Log.d("SELECTDRAWERITEM",Integer.toString(option));
 		drawerl.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		drawerToggle.setDrawerIndicatorEnabled(false);
 		
 		if(fManager != null){
 			if(option == 0){
 				if (aboutFragment == null) aboutFragment = new AboutFragment();
-				FragmentTransaction transaction = fManager.beginTransaction();
-				transaction.add(R.id.content_container,aboutFragment).addToBackStack(null).commit();
-				
+				fManager.beginTransaction().add(R.id.content_container,aboutFragment).addToBackStack(null).commit();
 				toolbar.setTitle("About");
 			} else if(option == 1){
 				if (settingsFragment == null) settingsFragment = new SettingsFragment();
-				FragmentTransaction transaction = fManager.beginTransaction();
-				transaction.add(R.id.content_container,settingsFragment).addToBackStack(null).commit();
-				
+				fManager.beginTransaction().add(R.id.content_container,settingsFragment).addToBackStack(null).commit();
 				toolbar.setTitle("Settings");
 			}
 		}
-		
-		//drawerl.closeDrawer(optionsList);
     }
 	
 	@Override
