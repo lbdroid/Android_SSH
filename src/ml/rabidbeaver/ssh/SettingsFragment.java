@@ -1,14 +1,19 @@
 package ml.rabidbeaver.ssh;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 import com.stericson.RootShell.RootShell;
 import com.stericson.RootShell.execution.Command;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,9 +22,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 public class SettingsFragment extends Fragment {
+	private CheckBox cbox;
 
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
 		View v = inflater.inflate(R.layout.settings,container,false);
@@ -72,8 +79,56 @@ public class SettingsFragment extends Fragment {
 		
 		((Button)v.findViewById(R.id.install_dangerous)).setEnabled(false);
 		
+	    String s = readFromFile("onboot.conf",v.getContext());
+	    cbox = (CheckBox)v.findViewById(R.id.launch);
+	    if (s.contains("true")) cbox.setChecked(true);
+	    cbox.setOnClickListener(new CheckBox.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				CheckBox c = (CheckBox)v;
+				if (c.isChecked()) writeToFile("onboot.conf","true",v.getContext());
+				else writeToFile("onboot.conf","false",v.getContext());
+			}
+	    });
 		
 		return v;
+	}
+	
+	private String readFromFile(String filename, Context ctx) {
+	    String ret = "";
+	    try {
+	    	InputStream inputStream = ctx.openFileInput(filename);
+
+	        if ( inputStream != null ) {
+	            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+	            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+	            String receiveString = "";
+	            StringBuilder stringBuilder = new StringBuilder();
+	            while ( (receiveString = bufferedReader.readLine()) != null ) {
+	                stringBuilder.append(receiveString);
+	            }
+	            inputStream.close();
+	            ret = stringBuilder.toString();
+	        }
+	    }
+	    catch (FileNotFoundException e) {
+	        Log.e("login activity", "File not found: " + e.toString());
+	    } catch (IOException e) {
+	        Log.e("login activity", "Can not read file: " + e.toString());
+	    }
+
+	    return ret;
+	}
+
+	private void writeToFile(String filename, String data, Context ctx) {
+	    try {
+	        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(ctx.openFileOutput(filename, Context.MODE_PRIVATE));
+	        outputStreamWriter.write(data);
+	        outputStreamWriter.close();
+	    }
+	    catch (IOException e) {
+	        Log.e("Exception", "File write failed: " + e.toString());
+	    } 
 	}
 	
 	private void copyAssets(String dir) {
@@ -116,5 +171,4 @@ public class SettingsFragment extends Fragment {
 	        }
 	    }
 	}
-	
 }

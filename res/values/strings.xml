@@ -15,6 +15,8 @@
     <string name="sshd_state">SSHD State:</string>
     <string name="sshd_state_running">RUNNING</string>
     <string name="sshd_state_stopped">STOPPED</string>
+    <string name="launch">Start SSHD on boot:</string>
+    <string name="launch_note">* in order to start sshd on boot, it is necessary for you to grant a permanent authorization to this application for root access.</string>
     <string name="shpiel">\u0020This contains OpenSSH, hacked special for Android.\n
 \n
 The first thing to note, is that this is NOT a shell. This application does not store logins. This application does not provide you with a "direct" interface to log into an SSH server.\n
