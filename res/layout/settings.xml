@@ -5,103 +5,103 @@
     android:background="@color/gray"
     android:paddingLeft="10dp"
     android:paddingRight="10dp" >
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        tools:ignore="UselessParent" >
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="15dp" />
-
-        <Button
-            android:id="@+id/install_safe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_safe" />
-
-        <Button
-            android:id="@+id/install_dangerous"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_danger" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/dangerlabel"
-            android:labelFor="@+id/btn_danger" />
-        <View
-            android:layout_width="1dp"
-            android:layout_height="20dp" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/launch"
-                android:labelFor="@+id/launch" />
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@id/launch" />
-        </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/launch_note" />
-        <View
-            android:layout_width="1dp"
-            android:layout_height="20dp" />
-        <Button
-            android:id="@+id/check_install"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/check_install" />
-        <View
-            android:layout_width="1dp"
-            android:layout_height="10dp" />
-       	<LinearLayout
-           	android:layout_width="match_parent"
-           	android:layout_height="wrap_content"
-           	android:orientation="horizontal"
-           	android:visibility="gone"
-           	android:id="@+id/stateoutput" >
-           	<TextView
-           	    android:layout_width="wrap_content"
-           	    android:layout_height="wrap_content"
-           	    android:text="@string/system_state" />
-           	<View
-           	    android:layout_width="10dp"
-           	    android:layout_height="1dp" />
-           	<TextView
-           	    android:layout_width="wrap_content"
-           	    android:layout_height="wrap_content"
-           	    android:id="@+id/system_state_uptodate"
-           	    android:textStyle="bold"
-           	    android:textColor="@color/darkgreen"
-           	    android:text="@string/system_state_uptodate"
-           	    android:visibility="gone" />
-           	<TextView
-           	    android:layout_width="wrap_content"
-           	    android:layout_height="wrap_content"
-           	    android:id="@+id/system_state_outofdate"
-           	    android:textStyle="bold"
-           	    android:textColor="@color/darkyellow"
-           	    android:text="@string/system_state_outofdate"
-           	    android:visibility="gone" />
-           	<TextView
-           	    android:layout_width="wrap_content"
-           	    android:layout_height="wrap_content"
-           	    android:id="@+id/system_state_notinstalled"
-           	    android:textStyle="bold"
-           	    android:textColor="@color/darkred"
-				android:text="@string/system_state_notinstalled"
-				android:visibility="gone" />
-        </LinearLayout>
-    </LinearLayout>
-
+	<ScrollView
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    tools:ignore="UselessParent" >
+    	<LinearLayout
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:orientation="vertical"
+        	tools:ignore="UselessParent" >
+        	<Space
+            	android:layout_width="wrap_content"
+            	android:layout_height="15dp" />
+	        <Button
+    	        android:id="@+id/install_safe"
+        	    android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:text="@string/btn_safe" />
+	        <Button
+    	        android:id="@+id/install_dangerous"
+        	    android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+	            android:text="@string/btn_danger" />
+    	    <TextView
+        	    android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+	            android:text="@string/dangerlabel"
+    	        android:labelFor="@+id/btn_danger" />
+        	<View
+            	android:layout_width="1dp"
+	            android:layout_height="20dp" />
+    	    <LinearLayout
+        	    android:layout_width="match_parent"
+            	android:layout_height="wrap_content"
+	            android:orientation="horizontal" >
+    	        <TextView
+        	        android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content"
+                	android:text="@string/launch"
+	                android:labelFor="@+id/launch" />
+    	        <CheckBox
+        	        android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content"
+                	android:id="@id/launch" />
+	        </LinearLayout>
+    	    <TextView
+        	    android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+	            android:text="@string/launch_note" />
+    	    <View
+        	    android:layout_width="1dp"
+            	android:layout_height="20dp" />
+	        <Button
+    	        android:id="@+id/check_install"
+        	    android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+	            android:text="@string/check_install" />
+    	    <View
+        	    android:layout_width="1dp"
+            	android:layout_height="10dp" />
+	       	<LinearLayout
+    	       	android:layout_width="match_parent"
+        	   	android:layout_height="wrap_content"
+           		android:orientation="horizontal"
+	           	android:visibility="gone"
+    	       	android:id="@+id/stateoutput" >
+        	   	<TextView
+           		    android:layout_width="wrap_content"
+           	    	android:layout_height="wrap_content"
+	           	    android:text="@string/system_state" />
+    	       	<View
+        	   	    android:layout_width="10dp"
+           		    android:layout_height="1dp" />
+	           	<TextView
+    	       	    android:layout_width="wrap_content"
+        	   	    android:layout_height="wrap_content"
+           		    android:id="@+id/system_state_uptodate"
+           	    	android:textStyle="bold"
+	           	    android:textColor="@color/darkgreen"
+    	       	    android:text="@string/system_state_uptodate"
+        	   	    android:visibility="gone" />
+           		<TextView
+           	    	android:layout_width="wrap_content"
+	           	    android:layout_height="wrap_content"
+    	       	    android:id="@+id/system_state_outofdate"
+        	   	    android:textStyle="bold"
+           		    android:textColor="@color/darkyellow"
+           	    	android:text="@string/system_state_outofdate"
+	           	    android:visibility="gone" />
+    	       	<TextView
+        	   	    android:layout_width="wrap_content"
+           		    android:layout_height="wrap_content"
+           	    	android:id="@+id/system_state_notinstalled"
+	           	    android:textStyle="bold"
+    	       	    android:textColor="@color/darkred"
+					android:text="@string/system_state_notinstalled"
+					android:visibility="gone" />
+	        </LinearLayout>
+    	</LinearLayout>
+	</ScrollView>
 </FrameLayout>

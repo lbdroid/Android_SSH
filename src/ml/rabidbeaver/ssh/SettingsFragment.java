@@ -57,40 +57,44 @@ public class SettingsFragment extends Fragment {
 	    
 	    ((Button)v.findViewById(R.id.check_install)).setOnClickListener(new Button.OnClickListener(){
 			@Override
-			public void onClick(View v){
-				if (FileIO.assetsInstalled(v.getContext(),"bin") && FileIO.assetsInstalled(v.getContext(),"etc") && FileIO.libsInstalled(v.getContext())){
-					if (FileIO.assetsCurrent(v.getContext(),"bin") && FileIO.libsCurrent(v.getContext())){
-						// Assets installed and current
-						getActivity().runOnUiThread(new Runnable(){
-							public void run() {
-								getActivity().findViewById(R.id.stateoutput).setVisibility(View.VISIBLE);
-								getActivity().findViewById(R.id.system_state_uptodate).setVisibility(View.VISIBLE);
-								getActivity().findViewById(R.id.system_state_outofdate).setVisibility(View.GONE);
-								getActivity().findViewById(R.id.system_state_notinstalled).setVisibility(View.GONE);
+			public void onClick(final View v){
+				new Thread(new Runnable() {
+					public void run(){
+						if (FileIO.assetsInstalled(v.getContext(),"bin") && FileIO.assetsInstalled(v.getContext(),"etc") && FileIO.libsInstalled(v.getContext())){
+							if (FileIO.assetsCurrent(v.getContext(),"bin") && FileIO.libsCurrent(v.getContext())){
+								// Assets installed and current
+								getActivity().runOnUiThread(new Runnable(){
+									public void run() {
+										getActivity().findViewById(R.id.stateoutput).setVisibility(View.VISIBLE);
+										getActivity().findViewById(R.id.system_state_uptodate).setVisibility(View.VISIBLE);
+										getActivity().findViewById(R.id.system_state_outofdate).setVisibility(View.GONE);
+										getActivity().findViewById(R.id.system_state_notinstalled).setVisibility(View.GONE);
+									}
+								});
+							} else {
+								// Assets installed, but out of date
+								getActivity().runOnUiThread(new Runnable(){
+									public void run() {
+										getActivity().findViewById(R.id.stateoutput).setVisibility(View.VISIBLE);
+										getActivity().findViewById(R.id.system_state_uptodate).setVisibility(View.GONE);
+										getActivity().findViewById(R.id.system_state_outofdate).setVisibility(View.VISIBLE);
+										getActivity().findViewById(R.id.system_state_notinstalled).setVisibility(View.GONE);
+									}
+								});
 							}
-						});
-					} else {
-						// Assets installed, but out of date
-						getActivity().runOnUiThread(new Runnable(){
-							public void run() {
-								getActivity().findViewById(R.id.stateoutput).setVisibility(View.VISIBLE);
-								getActivity().findViewById(R.id.system_state_uptodate).setVisibility(View.GONE);
-								getActivity().findViewById(R.id.system_state_outofdate).setVisibility(View.VISIBLE);
-								getActivity().findViewById(R.id.system_state_notinstalled).setVisibility(View.GONE);
-							}
-						});
-					}
-				} else {
-					// Assets not installed
-					getActivity().runOnUiThread(new Runnable(){
-						public void run() {
-							getActivity().findViewById(R.id.stateoutput).setVisibility(View.VISIBLE);
-							getActivity().findViewById(R.id.system_state_uptodate).setVisibility(View.GONE);
-							getActivity().findViewById(R.id.system_state_outofdate).setVisibility(View.GONE);
-							getActivity().findViewById(R.id.system_state_notinstalled).setVisibility(View.VISIBLE);
+						} else {
+							// Assets not installed
+							getActivity().runOnUiThread(new Runnable(){
+								public void run() {
+									getActivity().findViewById(R.id.stateoutput).setVisibility(View.VISIBLE);
+									getActivity().findViewById(R.id.system_state_uptodate).setVisibility(View.GONE);
+									getActivity().findViewById(R.id.system_state_outofdate).setVisibility(View.GONE);
+									getActivity().findViewById(R.id.system_state_notinstalled).setVisibility(View.VISIBLE);
+								}
+							});
 						}
-					});
-				}
+					}
+				}).start();
 			}
 	    });
 		
