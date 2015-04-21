@@ -3,6 +3,7 @@
     <item name="toolbarPrimary" type="color">#FF00779E</item>
     <item name="toolbarAccent" type="color">#FF33B5E5</item>
     <item name="darkred" type="color">#FFCC0000</item>
+    <item name="darkgreen" type="color">#FF00CC00</item>
     <item name="gray" type="color">#FFEEEEEE</item>
     <item name="white" type="color">#FFFFFFFF</item>
 	<item name="drawerBackground" type="color">#FFFFFFFF</item>

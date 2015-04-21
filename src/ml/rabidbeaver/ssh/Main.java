@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Main extends ActionBarActivity {
@@ -35,6 +36,7 @@ public class Main extends ActionBarActivity {
 	private AboutFragment aboutFragment;
 	private SettingsFragment settingsFragment;
 	private RelativeLayout optionsList;
+	private boolean pollstate = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -207,14 +209,53 @@ public class Main extends ActionBarActivity {
 			}
 		});
 		EditText ipfield = (EditText)findViewById(R.id.ip_field);
-		ipfield.setText(shellexec("busybox ifconfig"));
+		ipfield.setText(shellgetips());
 	}
 	
-	public String shellexec(String command) {
+	@Override
+	public void onPause() {
+	    super.onPause();
+	    pollstate=false;
+	}
+	
+	@Override
+	public void onResume() {
+	    super.onResume();
+	    pollstate=true;
+		new Thread(new Runnable() {
+			public void run(){
+				while (pollstate){
+				final TextView runview = (TextView) findViewById(R.id.sshd_state_running);
+				final TextView stopview = (TextView) findViewById(R.id.sshd_state_stopped);
+				if (shellsshdrunning()){
+					runOnUiThread(new Runnable(){
+						public void run() {
+							runview.setVisibility(View.VISIBLE);
+							stopview.setVisibility(View.GONE);
+						}
+					});
+				} else {
+					runOnUiThread(new Runnable(){
+						public void run() {
+							runview.setVisibility(View.GONE);
+							stopview.setVisibility(View.VISIBLE);
+						}
+					});
+				}
+				
+				try {
+					Thread.sleep(5000); // sleep for 5 seconds
+				} catch (Exception e){}
+				}
+			}
+		}).start();
+	}
+	
+	public String shellgetips() {
 		StringBuffer output = new StringBuffer();
 		Process p;
 		try {
-			p = Runtime.getRuntime().exec(command);
+			p = Runtime.getRuntime().exec("busybox ifconfig");
 			p.waitFor();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			String line = "";
@@ -231,6 +272,22 @@ public class Main extends ActionBarActivity {
 		}
 		String response = output.toString();
 		return response;
+	}
+	
+	public boolean shellsshdrunning() {
+		Process p;
+		try {
+			p = Runtime.getRuntime().exec("busybox ps | grep sshd 2>/dev/null");
+			p.waitFor();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String line = "";
+			while ((line = reader.readLine())!= null) {
+				if (line.contains("/system/bin/sshd")) return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	private String readFromFile(String filename) {

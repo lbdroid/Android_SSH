@@ -56,6 +56,34 @@
                     	android:layout_weight="1"
                     	android:text="@string/btn_restartsshd" />
             	</LinearLayout>
+            	<LinearLayout
+                	android:layout_width="match_parent"
+                	android:layout_height="wrap_content"
+                	android:orientation="horizontal" >
+                	<TextView
+                	    android:layout_width="wrap_content"
+                	    android:layout_height="wrap_content"
+                	    android:text="@string/sshd_state" />
+                	<View
+                	    android:layout_width="10dp"
+                	    android:layout_height="1dp" />
+                	<TextView
+                	    android:layout_width="wrap_content"
+                	    android:layout_height="wrap_content"
+                	    android:id="@+id/sshd_state_running"
+                	    android:textStyle="bold"
+                	    android:textColor="@color/darkgreen"
+                	    android:text="@string/sshd_state_running"
+                	    android:visibility="gone" />
+                	<TextView
+                	    android:layout_width="wrap_content"
+                	    android:layout_height="wrap_content"
+                	    android:id="@+id/sshd_state_stopped"
+                	    android:textStyle="bold"
+                	    android:textColor="@color/darkred"
+						android:text="@string/sshd_state_stopped"
+						android:visibility="gone" />
+                </LinearLayout>
             	<View
                 	android:layout_width="match_parent"
                 	android:layout_height="20dp" />
