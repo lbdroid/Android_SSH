@@ -1,16 +1,11 @@
 package ml.rabidbeaver.ssh;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
 import com.stericson.RootShell.RootShell;
 import com.stericson.RootShell.execution.Command;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -175,12 +170,12 @@ public class Main extends ActionBarActivity {
 		});
 		
 		authorized_keys = (EditText)findViewById(R.id.auth_keys);
-		authorized_keys.setText(readFromFile("authorized_keys"));
+		authorized_keys.setText(FileIO.readFromFile(getApplicationContext(),"authorized_keys"));
 		
 		((Button)findViewById(R.id.set_keys)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
-				writeToFile("authorized_keys",authorized_keys.getText().toString());
+				FileIO.writeToFile(getApplicationContext(),"authorized_keys",authorized_keys.getText().toString());
 				String filespath=getApplicationInfo().dataDir+"/files";
 				if (RootShell.isAccessGiven()){
 					// do root stuff here
@@ -288,43 +283,6 @@ public class Main extends ActionBarActivity {
 			e.printStackTrace();
 		}
 		return false;
-	}
-	
-	private String readFromFile(String filename) {
-	    String ret = "";
-	    try {
-	    	InputStream inputStream = openFileInput(filename);
-
-	        if ( inputStream != null ) {
-	            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-	            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-	            String receiveString = "";
-	            StringBuilder stringBuilder = new StringBuilder();
-	            while ( (receiveString = bufferedReader.readLine()) != null ) {
-	                stringBuilder.append(receiveString);
-	            }
-	            inputStream.close();
-	            ret = stringBuilder.toString();
-	        }
-	    }
-	    catch (FileNotFoundException e) {
-	        Log.e("login activity", "File not found: " + e.toString());
-	    } catch (IOException e) {
-	        Log.e("login activity", "Can not read file: " + e.toString());
-	    }
-
-	    return ret;
-	}
-
-	private void writeToFile(String filename, String data) {
-	    try {
-	        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput(filename, Context.MODE_PRIVATE));
-	        outputStreamWriter.write(data);
-	        outputStreamWriter.close();
-	    }
-	    catch (IOException e) {
-	        Log.e("Exception", "File write failed: " + e.toString());
-	    } 
 	}
 	
 	private void selectDrawerItem(int option){

@@ -8,7 +8,7 @@
     <string name="btn_stopsshd">Stop SSHD</string>
     <string name="btn_restartsshd">Restart SSHD</string>
     <string name="label_ip">IP Addresses:</string>
-    <string name="settings">Settings</string>
+    <string name="settings">System</string>
     <string name="about">About</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
@@ -16,6 +16,20 @@
     <string name="sshd_state_running">RUNNING</string>
     <string name="sshd_state_stopped">STOPPED</string>
     <string name="launch">Start SSHD on boot:</string>
+    <string name="check_install">Check System</string>
+    <string name="system_state">Installation State:</string>
+    <string name="system_state_uptodate">Up to date</string>
+    <string name="system_state_outofdate">Out of date</string>
+    <string name="system_state_notinstalled">Not installed</string>
+    <string name="dangerlabel">* Install Dangerous is NOT RECOMMENDED!!!</string>
+    <string name="danger_heading">Install Dangerous Libraries</string>
+    <string name="danger_warning">\u0020In addition to the standard installation, this option will also install libcrypto.so, libssl.so, and libz.so.\n
+        \n
+        Most likely, your system already has these libraries installed. The replacement versions provided herein may be of different versions than the ones provided by your system. This could cause unpredictable failures in your system for anything that uses these libraries.\n
+        \n
+        Only proceed if you know what you are doing, and know how to reinstall your original versions of these libraries. We do not provide any backup mechanism.\n
+        \n
+        If anything goes wrong, you are on your own.</string>
     <string name="launch_note">* in order to start sshd on boot, it is necessary for you to grant a permanent authorization to this application for root access.</string>
     <string name="shpiel">\u0020This contains OpenSSH, hacked special for Android.\n
 \n
@@ -27,7 +41,7 @@ This application has two functions;\n
 1) Installation of OpenSSH (and related) binaries to your system. Specifically, ssh, sshd, sftp, sftp-server, scp, ssh-keygen, openssl, and gzip. gzip wasn\'t the objective, but being a dependency, it came along for the ride.\n
 2) Simple control over sshd.\n
 \n
-First thing, obviously, is installation. Open the "Settings" menu, and press "INSTALL SAFE". It should prompt you for root authorization, and then install all applicable commands and libraries to your system.\n
+First thing, obviously, is installation. Open the "System" menu, and press "INSTALL SAFE". It should prompt you for root authorization, and then install all applicable commands and libraries to your system.\n
 \n
 Once installed, the commands mentioned will be accessible through any shell, such as Android Terminal Emulator, or adb.\n
 \n
