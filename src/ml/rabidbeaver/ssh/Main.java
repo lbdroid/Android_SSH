@@ -60,7 +60,7 @@ public class Main extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				fManager.popBackStack();
-				if(toolbar != null)toolbar.setTitle("RabidBeaver SSH");
+				if(toolbar != null)toolbar.setTitle(R.string.app_name);
 				drawerl.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 				drawerToggle.setDrawerIndicatorEnabled(true);
 			}
@@ -293,11 +293,11 @@ public class Main extends ActionBarActivity {
 			if(option == 0){
 				if (aboutFragment == null) aboutFragment = new AboutFragment();
 				fManager.beginTransaction().add(R.id.content_container,aboutFragment).addToBackStack(null).commit();
-				toolbar.setTitle("About");
+				toolbar.setTitle(R.string.about);
 			} else if(option == 1){
 				if (settingsFragment == null) settingsFragment = new SettingsFragment();
 				fManager.beginTransaction().add(R.id.content_container,settingsFragment).addToBackStack(null).commit();
-				toolbar.setTitle("Settings");
+				toolbar.setTitle(R.string.settings);
 			}
 		}
     }
@@ -321,7 +321,7 @@ public class Main extends ActionBarActivity {
 	@Override
 	public void onBackPressed(){
 		super.onBackPressed();
-		if(toolbar != null)toolbar.setTitle("RabidBeaver SSH");
+		if(toolbar != null)toolbar.setTitle(R.string.app_name);
 		drawerl.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 		drawerToggle.setDrawerIndicatorEnabled(true);
 	}
