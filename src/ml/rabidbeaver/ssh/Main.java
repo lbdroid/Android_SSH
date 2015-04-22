@@ -203,8 +203,6 @@ public class Main extends ActionBarActivity {
 				}
 			}
 		});
-		EditText ipfield = (EditText)findViewById(R.id.ip_field);
-		ipfield.setText(shellgetips());
 	}
 	
 	@Override
@@ -219,9 +217,11 @@ public class Main extends ActionBarActivity {
 	    pollstate=true;
 		new Thread(new Runnable() {
 			public void run(){
-				while (pollstate){
 				final TextView runview = (TextView) findViewById(R.id.sshd_state_running);
 				final TextView stopview = (TextView) findViewById(R.id.sshd_state_stopped);
+				EditText ipfield = (EditText)findViewById(R.id.ip_field);
+				while (pollstate){
+				ipfield.setText(shellgetips());
 				if (shellsshdrunning()){
 					runOnUiThread(new Runnable(){
 						public void run() {
