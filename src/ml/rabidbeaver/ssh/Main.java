@@ -10,8 +10,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Main extends ActionBarActivity {
+public class Main extends AppCompatActivity {
 	private Toolbar toolbar;
 	private EditText authorized_keys;
 	private ActionBarDrawerToggle drawerToggle;
@@ -219,9 +219,13 @@ public class Main extends ActionBarActivity {
 			public void run(){
 				final TextView runview = (TextView) findViewById(R.id.sshd_state_running);
 				final TextView stopview = (TextView) findViewById(R.id.sshd_state_stopped);
-				EditText ipfield = (EditText)findViewById(R.id.ip_field);
+				final EditText ipfield = (EditText)findViewById(R.id.ip_field);
 				while (pollstate){
-				ipfield.setText(shellgetips());
+				runOnUiThread(new Runnable(){
+					public void run(){
+						ipfield.setText(shellgetips());
+					}
+				});
 				if (shellsshdrunning()){
 					runOnUiThread(new Runnable(){
 						public void run() {
