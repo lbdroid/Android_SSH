@@ -87,6 +87,26 @@ LOCAL_SHARED_LIBRARIES += libssh libssl libcrypto libdl libz
 
 include $(BUILD_EXECUTABLE)
 
+###################### autossh ######################
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE_TAGS := optional
+
+LOCAL_SRC_FILES := autossh-1.4e/autossh.c
+
+LOCAL_MODULE := autossh
+
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/autossh-1.4e
+PRIVATE_C_INCLUDES := $(LOCAL_PATH)/autossh-1.4e
+
+LOCAL_CFLAGS := -DVER=\"1.4e\" -DSSH_PATH=\"/system/bin/ssh\"
+
+LOCAL_SHARED_LIBRARIES += libssh libssl libcrypto libdl libz
+LOCAL_LDLIBS := -llog
+
+include $(BUILD_EXECUTABLE)
+
 ###################### scp ######################
 
 include $(CLEAR_VARS)
@@ -191,3 +211,4 @@ all:
 	cp $(OLD_PATH)/../libs/armeabi/sshd $(OLD_PATH)/../assets/bin/
 	cp $(OLD_PATH)/../libs/armeabi/ssh-keygen $(OLD_PATH)/../assets/bin/
 	cp $(OLD_PATH)/../libs/armeabi/openssl $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi/autossh $(OLD_PATH)/../assets/bin/
