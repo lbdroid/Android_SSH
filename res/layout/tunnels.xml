@@ -5,16 +5,9 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:background="@color/gray" >
-	<ScrollView
+	<android.support.v7.widget.RecyclerView
+	    android:id="@+id/tunnels_list"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
-	    tools:ignore="UselessParent">
-		<TextView
-	    	android:layout_width="match_parent"
-	    	android:layout_height="wrap_content"
-	    	android:text="This is where tunnels config interface will go." />
-		<!-- list of expandable views (cards?). Minimized: red/greed dot indicates
-		not running or running. Name of the connection. Expand/minimize button.
-		When expanded, add details + start/stop button + edit button. -->
-    </ScrollView>
+	    tools:ignore="UselessParent" />
 </TableLayout>

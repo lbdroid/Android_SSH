@@ -32,4 +32,8 @@
 	    <item name="android:textSize">17sp</item>
 	</style>
 
+	<style name="SSHDialogTheme" parent="Theme.AppCompat.Light.Dialog" >
+        <item name="android:windowNoTitle">false</item>
+    </style>
+	
 </resources>

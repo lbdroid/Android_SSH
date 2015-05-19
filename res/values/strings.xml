@@ -3,6 +3,7 @@
     <string name="btn_safe">Install Safe</string>
     <string name="btn_danger">Install DANGEROUS</string>
     <string name="btn_set_auth_keyfile">Set keyfile</string>
+    <string name="button_ok">OK</string>
     <string name="label_auth_keys">authorized_keys:</string>
     <string name="btn_startsshd">Start SSHD</string>
     <string name="btn_stopsshd">Stop SSHD</string>
@@ -11,6 +12,7 @@
     <string name="settings">System</string>
     <string name="about">About</string>
     <string name="tunnels">Tunnels</string>
+    <string name="tunnel_chooser">Tunnel Chooser</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="sshd_state">SSHD State:</string>
