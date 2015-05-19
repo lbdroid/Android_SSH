@@ -12,10 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 
 public class TunnelsFragment extends Fragment {
 	private RecyclerView mRecyclerView;
@@ -35,9 +33,12 @@ public class TunnelsFragment extends Fragment {
 	        }
 	    });
 	    fab.setClipToOutline(true);
-				//(ImageButton) inflater.inflate(R.layout.fab, container, false);
-		//FrameLayout fl = (FrameLayout) v.getRootView().findViewById(R.id.content_container);
-		//fl.addView(fab);
+	    fab.setOnClickListener(new ImageButton.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				// TODO What to do to create a new ssh tunnel.
+			}
+	    });
 		
 		mRecyclerView = (RecyclerView) v.findViewById(R.id.tunnels_list);
 		mRecyclerView.setHasFixedSize(true);
@@ -45,8 +46,10 @@ public class TunnelsFragment extends Fragment {
 		mLayoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         
+        //TODO: change this string array to something like an object list
         String[] mStringArray = {"a","b","c"};
         mAdapter = new TunnelsAdapter(mStringArray);
+        
         mRecyclerView.setAdapter(mAdapter);
 		
 		return v;
@@ -61,29 +64,23 @@ public class TunnelsFragment extends Fragment {
 	            mCardView = v;
 	        }
 	    }
+	    
+	    // TODO: obviously, this will have to be updated when we switch to object list.
 	    public TunnelsAdapter(String[] myDataset) {
 	        mDataset = myDataset;
 	    }
 
-	    // Create new views (invoked by the layout manager)
 	    @Override
 	    public TunnelsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-	        // create a new view
 	        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.tunnel_view, parent, false);
-	        // set the view's size, margins, paddings and layout parameters
-	        //...
 	        ViewHolder vh = new ViewHolder((CardView)v);
 	        return vh;
 	    }
 
-	    // Replace the contents of a view (invoked by the layout manager)
 	    @Override
 	    public void onBindViewHolder(ViewHolder holder, int position) {
-	        // - get element from your dataset at this position
-	        // - replace the contents of the view with that element
-
 	    	((TextView)holder.mCardView.findViewById(R.id.card_text)).setText(mDataset[position]);
-
+	    	// TODO: setup the cardview here
 	    }
 
 	    @Override
