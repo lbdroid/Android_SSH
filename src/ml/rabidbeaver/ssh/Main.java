@@ -30,8 +30,13 @@ public class Main extends AppCompatActivity {
 	private FragmentManager fManager;
 	private AboutFragment aboutFragment;
 	private SettingsFragment settingsFragment;
+	private TunnelsFragment tunnelsFragment;
 	private RelativeLayout optionsList;
 	private boolean pollstate = true;
+	
+	private static final int ABOUT = 0;
+	private static final int SETTINGS = 1;
+	private static final int TUNNELS = 2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -73,14 +78,21 @@ public class Main extends AppCompatActivity {
 		LinearLayout aboutOption = (LinearLayout)optionsList.findViewById(R.id.about_drawer);
 		aboutOption.setOnClickListener(new LinearLayout.OnClickListener(){
 			public void onClick(View v){
-				selectDrawerItem(0);
+				selectDrawerItem(ABOUT);
 			}
 		});
         
 		LinearLayout settingsOption = (LinearLayout)optionsList.findViewById(R.id.settings_drawer);
 		settingsOption.setOnClickListener(new LinearLayout.OnClickListener(){
 			public void onClick(View v){
-				selectDrawerItem(1);
+				selectDrawerItem(SETTINGS);
+			}
+		});
+		
+		LinearLayout tunnelsOption = (LinearLayout)optionsList.findViewById(R.id.tunnels_drawer);
+		tunnelsOption.setOnClickListener(new LinearLayout.OnClickListener(){
+			public void onClick(View v){
+				selectDrawerItem(TUNNELS);
 			}
 		});
 		
@@ -294,14 +306,18 @@ public class Main extends AppCompatActivity {
 		drawerToggle.setDrawerIndicatorEnabled(false);
 		
 		if(fManager != null){
-			if(option == 0){
+			if(option == ABOUT){
 				if (aboutFragment == null) aboutFragment = new AboutFragment();
 				fManager.beginTransaction().add(R.id.content_container,aboutFragment).addToBackStack(null).commit();
 				toolbar.setTitle(R.string.about);
-			} else if(option == 1){
+			} else if(option == SETTINGS){
 				if (settingsFragment == null) settingsFragment = new SettingsFragment();
 				fManager.beginTransaction().add(R.id.content_container,settingsFragment).addToBackStack(null).commit();
 				toolbar.setTitle(R.string.settings);
+			} else if(option == TUNNELS){
+				if (tunnelsFragment == null) tunnelsFragment = new TunnelsFragment();
+				fManager.beginTransaction().add(R.id.content_container,tunnelsFragment).addToBackStack(null).commit();
+				toolbar.setTitle(R.string.tunnels);
 			}
 		}
     }

@@ -10,6 +10,7 @@
     <string name="label_ip">IP Addresses:</string>
     <string name="settings">System</string>
     <string name="about">About</string>
+    <string name="tunnels">Tunnels</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="sshd_state">SSHD State:</string>

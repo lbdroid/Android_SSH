@@ -155,8 +155,7 @@
         android:fitsSystemWindows="true"
         android:orientation="vertical" >
 
-        <!-- Est Name -->
-
+        <!-- Header -->
         <LinearLayout
             android:id="@+id/drawer_top"
             android:layout_width="match_parent"
@@ -177,10 +176,10 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
-        <!-- Orders -->
 
+        <!-- Port FWDs -->
         <LinearLayout
-            android:id="@+id/about_drawer"
+            android:id="@+id/tunnels_drawer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/settings_drawer"
@@ -197,14 +196,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="75dp"
                 android:layout_gravity="center_vertical"
-                android:drawableLeft="@drawable/ic_action_about"
+                android:drawableLeft="@drawable/ic_action_import_export"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="#ff000000"
                 android:textStyle="bold"
-                android:text="@string/about"
+                android:text="@string/tunnels"
                 tools:ignore="RtlHardcoded" />
 
             <LinearLayout
@@ -214,13 +213,12 @@
                 android:orientation="horizontal" />
         </LinearLayout>
 
-        <!-- Settings -->
-
+        <!-- System -->
         <LinearLayout
             android:id="@+id/settings_drawer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+			android:layout_above="@+id/about_drawer"
             android:layout_gravity="center"
             android:orientation="vertical" >
 
@@ -242,6 +240,35 @@
                 android:textColor="#ff000000"
                 android:textStyle="bold"
                 android:text="@string/settings"
+                tools:ignore="RtlHardcoded" />
+        </LinearLayout>
+        
+        <!-- About -->
+        <LinearLayout
+            android:id="@+id/about_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#fff0f0f0"
+                android:orientation="horizontal" />
+
+			<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="75dp"
+                android:layout_gravity="center_vertical"
+                android:drawableLeft="@drawable/ic_action_about"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="#ff000000"
+                android:textStyle="bold"
+                android:text="@string/about"
                 tools:ignore="RtlHardcoded" />
         </LinearLayout>
     </RelativeLayout>
