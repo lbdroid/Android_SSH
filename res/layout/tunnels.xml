@@ -1,7 +1,7 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:background="@color/gray" >
@@ -10,4 +10,17 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    tools:ignore="UselessParent" />
-</TableLayout>
+	<ImageButton
+		android:id="@+id/add_tunnel_button"
+		android:tint="@android:color/white"
+		android:background="@drawable/oval_ripple"
+		android:stateListAnimator="@anim/button_elevation"
+		android:elevation="@dimen/elevation_low"
+		android:layout_width="@dimen/diameter"
+		android:layout_height="@dimen/diameter"
+		android:layout_gravity="end|bottom"
+		android:layout_marginBottom="@dimen/add_button_margin"
+		android:layout_marginEnd="@dimen/add_button_margin_10"
+		android:src="@android:drawable/ic_input_add"
+		android:contentDescription="@string/new_tunnel" />
+</FrameLayout>

@@ -1,5 +1,8 @@
 package ml.rabidbeaver.ssh;
 
+import android.annotation.TargetApi;
+import android.graphics.Outline;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -8,6 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 
@@ -18,6 +24,20 @@ public class TunnelsFragment extends Fragment {
 	
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
 		View v = inflater.inflate(R.layout.tunnels,container,false);
+		
+		ImageButton fab = (ImageButton) v.findViewById(R.id.add_tunnel_button);
+		fab.setOutlineProvider(new ViewOutlineProvider() {
+	        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	        @Override
+	        public void getOutline(View view, Outline outline) {
+	            int diameter = getResources().getDimensionPixelSize(R.dimen.diameter);
+	            outline.setOval(0, 0, diameter, diameter);
+	        }
+	    });
+	    fab.setClipToOutline(true);
+				//(ImageButton) inflater.inflate(R.layout.fab, container, false);
+		//FrameLayout fl = (FrameLayout) v.getRootView().findViewById(R.id.content_container);
+		//fl.addView(fab);
 		
 		mRecyclerView = (RecyclerView) v.findViewById(R.id.tunnels_list);
 		mRecyclerView.setHasFixedSize(true);

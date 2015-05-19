@@ -11,6 +11,11 @@
 	<dimen name="orders_status_menu_button_outsetSize">10dp</dimen>
 	<dimen name="orders_status_menu_cancel_spaceSize">20dp</dimen>
 	
+	<dimen name="diameter">56dp</dimen>
+    <dimen name="elevation_low">1dp</dimen>
+    <dimen name="elevation_high">4dp</dimen>
+    <dimen name="add_button_margin">24dp</dimen>
+    <dimen name="add_button_margin_10">14dp</dimen>
 	
 	<dimen name="dialog_horizontal_margin">24dp</dimen>
     <dimen name="dialog_bottom_margin">16dp</dimen>

@@ -4,6 +4,7 @@
     <string name="btn_danger">Install DANGEROUS</string>
     <string name="btn_set_auth_keyfile">Set keyfile</string>
     <string name="button_ok">OK</string>
+    <string name="new_tunnel">Create new tunnel</string>
     <string name="label_auth_keys">authorized_keys:</string>
     <string name="btn_startsshd">Start SSHD</string>
     <string name="btn_stopsshd">Stop SSHD</string>
