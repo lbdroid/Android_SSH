@@ -149,7 +149,7 @@ public class TunnelsFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         
         mTunnelArray = tunnelManager.getTunnels();
-        mAdapter = new TunnelsAdapter(mTunnelArray);
+        mAdapter = new TunnelsAdapter();
         
         mRecyclerView.setAdapter(mAdapter);
 		
@@ -158,11 +158,10 @@ public class TunnelsFragment extends Fragment {
 	
 	private void refresh(){
 		mTunnelArray = tunnelManager.getTunnels();
-		((TunnelsAdapter) mAdapter).updateDataSet(mTunnelArray);
+		mAdapter.notifyDataSetChanged();
 	}
 	
 	private class TunnelsAdapter extends RecyclerView.Adapter<TunnelsAdapter.ViewHolder> {
-	    private Tunnel[] tunnels;
 	    public class ViewHolder extends RecyclerView.ViewHolder {
 	        public CardView mCardView;
 	        public ViewHolder(CardView v) {
@@ -171,15 +170,6 @@ public class TunnelsFragment extends Fragment {
 	        }
 	    }
 	    
-	    public TunnelsAdapter(Tunnel[] tunnels) {
-	        this.tunnels = tunnels;
-	    }
-	    
-	    public void updateDataSet(Tunnel[] tunnels){
-	    	this.tunnels = tunnels;
-	    	this.notifyDataSetChanged();
-	    }
-
 	    @Override
 	    public TunnelsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 	        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.tunnel_view, parent, false);
@@ -189,13 +179,13 @@ public class TunnelsFragment extends Fragment {
 
 	    @Override
 	    public void onBindViewHolder(ViewHolder holder, int position) {
-	    	((TextView)holder.mCardView.findViewById(R.id.card_text)).setText(tunnels[position].getName());
+	    	((TextView)holder.mCardView.findViewById(R.id.card_text)).setText(mTunnelArray[position].getName());
 	    	// TODO: setup the cardview here
 	    }
 
 	    @Override
 	    public int getItemCount() {
-	        return tunnels.length;
+	        return mTunnelArray.length;
 	    }
 	}  
 }
