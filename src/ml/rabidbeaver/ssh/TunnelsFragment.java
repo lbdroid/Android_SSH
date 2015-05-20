@@ -55,22 +55,22 @@ public class TunnelsFragment extends Fragment {
 			public void onClick(final View v) {
 				// What to do to create a new ssh tunnel.
 				// create dialog/form for the tunnel details.
-				
+				final View tunnel_form = inflater.inflate(R.layout.tunnel_add_edit, null);
 				final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 				builder.setTitle("New Tunnel");
 				builder.setPositiveButton("Add Tunnel", new DialogInterface.OnClickListener(){
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						String tunnel_name = ((EditText) v.findViewById(R.id.tunnel_name)).getText().toString();
-						String tunnel_server = ((EditText) v.findViewById(R.id.tunnel_server)).getText().toString();
-						int tunnel_server_port = Integer.parseInt(((EditText) v.findViewById(R.id.tunnel_server_port)).getText().toString());
-						String tunnel_user = ((EditText) v.findViewById(R.id.tunnel_user)).getText().toString();
-						String tunnel_pubkey = ((EditText) v.findViewById(R.id.tunnel_pubkey)).getText().toString();
-						String tunnel_prikey = ((EditText) v.findViewById(R.id.tunnel_prikey)).getText().toString();
-						String tunnel_host = ((EditText) v.findViewById(R.id.tunnel_host)).getText().toString();
-						int tunnel_host_port = Integer.parseInt(((EditText) v.findViewById(R.id.tunnel_host_port)).getText().toString());
-						int tunnel_local_port = Integer.parseInt(((EditText) v.findViewById(R.id.tunnel_local_port)).getText().toString());
-						boolean tunnel_reverse = ((CheckBox) v.findViewById(R.id.tunnel_reverse)).isChecked();
+						String tunnel_name = ((EditText) tunnel_form.findViewById(R.id.tunnel_name)).getText().toString();
+						String tunnel_server = ((EditText) tunnel_form.findViewById(R.id.tunnel_server)).getText().toString();
+						int tunnel_server_port = Integer.parseInt(((EditText) tunnel_form.findViewById(R.id.tunnel_server_port)).getText().toString());
+						String tunnel_user = ((EditText) tunnel_form.findViewById(R.id.tunnel_user)).getText().toString();
+						String tunnel_pubkey = ((EditText) tunnel_form.findViewById(R.id.tunnel_pubkey)).getText().toString();
+						String tunnel_prikey = ((EditText) tunnel_form.findViewById(R.id.tunnel_prikey)).getText().toString();
+						String tunnel_host = ((EditText) tunnel_form.findViewById(R.id.tunnel_host)).getText().toString();
+						int tunnel_host_port = Integer.parseInt(((EditText) tunnel_form.findViewById(R.id.tunnel_host_port)).getText().toString());
+						int tunnel_local_port = Integer.parseInt(((EditText) tunnel_form.findViewById(R.id.tunnel_local_port)).getText().toString());
+						boolean tunnel_reverse = ((CheckBox) tunnel_form.findViewById(R.id.tunnel_reverse)).isChecked();
 						
 						if (tunnel_name.length() > 0 && tunnel_server.length() > 0 && tunnel_server_port > 0
 								&& tunnel_user.length() > 0 && tunnel_host.length() > 0 && tunnel_host_port > 0
@@ -99,7 +99,6 @@ public class TunnelsFragment extends Fragment {
 					}
 				});
 
-				final View tunnel_form = inflater.inflate(R.layout.tunnel_add_edit, null);
 				builder.setView(tunnel_form);
 				Button genkeys = (Button) tunnel_form.findViewById(R.id.tunnel_genkeys);
 				genkeys.setOnClickListener(new Button.OnClickListener(){
@@ -159,7 +158,7 @@ public class TunnelsFragment extends Fragment {
 	
 	private void refresh(){
 		mTunnelArray = tunnelManager.getTunnels();
-		mAdapter.notifyDataSetChanged();
+		((TunnelsAdapter) mAdapter).updateDataSet(mTunnelArray);
 	}
 	
 	private class TunnelsAdapter extends RecyclerView.Adapter<TunnelsAdapter.ViewHolder> {
@@ -174,6 +173,11 @@ public class TunnelsFragment extends Fragment {
 	    
 	    public TunnelsAdapter(Tunnel[] tunnels) {
 	        this.tunnels = tunnels;
+	    }
+	    
+	    public void updateDataSet(Tunnel[] tunnels){
+	    	this.tunnels = tunnels;
+	    	this.notifyDataSetChanged();
 	    }
 
 	    @Override
