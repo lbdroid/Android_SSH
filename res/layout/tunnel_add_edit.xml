@@ -1,0 +1,177 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+   	android:layout_width="match_parent"
+   	android:layout_height="match_parent"
+   	android:orientation="vertical" >
+	<TableLayout
+   		android:layout_width="match_parent"
+   		android:layout_height="wrap_content"
+   		android:paddingBottom="@dimen/dialog_bottom_margin"
+   		android:paddingLeft="@dimen/dialog_horizontal_margin"
+   		android:paddingRight="@dimen/dialog_horizontal_margin"
+   		android:paddingTop="@dimen/dialog_top_margin"
+   		android:shrinkColumns="1"
+   		tools:context=".TunnelChooser" >
+   		<TableRow
+   		    android:layout_width="match_parent"
+   		    android:layout_height="wrap_content" >
+   		    <TextView 
+   		        android:labelFor="@+id/tunnel_name"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:text="@string/add_label_name" />
+   		    <EditText
+   		        android:id="@+id/tunnel_name"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:inputType="text"/>
+   		</TableRow>
+   		<TableRow
+   		    android:layout_width="match_parent"
+   		    android:layout_height="wrap_content" >
+   		    <TextView 
+   		        android:labelFor="@+id/tunnel_server"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:text="@string/add_label_ssh_server" />
+   		    <EditText
+   		        android:id="@+id/tunnel_server"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:inputType="text"/>
+   		</TableRow>
+   		<TableRow
+   		    android:layout_width="match_parent"
+   		    android:layout_height="wrap_content" >
+   		    <TextView 
+   		        android:labelFor="@+id/tunnel_server_port"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:text="@string/add_label_ssh_port" />
+   		    <EditText
+   		        android:id="@+id/tunnel_server_port"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:inputType="number"/>
+   		</TableRow>
+   		<TableRow
+   		    android:layout_width="match_parent"
+   		    android:layout_height="wrap_content" >
+   		    <TextView 
+   		        android:labelFor="@+id/tunnel_user"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:text="@string/add_label_ssh_user" />
+   		    <EditText
+   		        android:id="@+id/tunnel_user"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:inputType="text"/>
+   		</TableRow>
+   		<TableRow
+   		    android:layout_width="match_parent"
+   		    android:layout_height="wrap_content" >
+   		    <TextView 
+   		        android:labelFor="@+id/tunnel_pubkey"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:text="@string/add_label_ssh_pubkey" />
+   		    <EditText
+   		        android:id="@+id/tunnel_pubkey"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:inputType="text"/>
+   		</TableRow>
+   		<TableRow
+   		    android:layout_width="match_parent"
+   		    android:layout_height="wrap_content" >
+   		    <TextView 
+   		        android:labelFor="@+id/tunnel_prikey"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:text="@string/add_label_ssh_prikey" />
+   		    <EditText
+   		        android:id="@+id/tunnel_prikey"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:inputType="text"/>
+   		</TableRow>
+   		<TableRow
+   		    android:layout_width="match_parent"
+   		    android:layout_height="wrap_content" >
+   		    <Button
+   		        android:id="@+id/tunnel_genkeys"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:layout_gravity="left|center_vertical"
+   		        android:padding="0dp"
+   		        android:text="@string/add_gen_keys"
+   		        style="?android:attr/buttonBarButtonStyle"
+   		        tools:ignore="RtlHardcoded" />
+   		    <TextView
+   		        android:layout_width="fill_parent"
+   		        android:layout_height="wrap_content"
+   		        android:layout_gravity="left|center_vertical"
+   		        android:labelFor="@+id/tunnel_genkeys"
+   		        android:textStyle="italic"
+   		        android:text="@string/add_label_gen_keys"
+   		        tools:ignore="RtlHardcoded" />
+   		</TableRow>
+   		<TableRow
+   		    android:layout_width="match_parent"
+   		    android:layout_height="wrap_content" >
+   		    <TextView 
+   		        android:labelFor="@+id/tunnel_host"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:text="@string/add_label_tun_host" />
+   		    <EditText
+   		        android:id="@+id/tunnel_host"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:inputType="text"/>
+   		</TableRow>
+   		<TableRow
+   		    android:layout_width="match_parent"
+   		    android:layout_height="wrap_content" >
+   		    <TextView 
+   		        android:labelFor="@+id/tunnel_host_port"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:text="@string/add_label_tun_port" />
+   		    <EditText
+   		        android:id="@+id/tunnel_host_port"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:inputType="number"/>
+   		</TableRow>
+   		<TableRow
+   		    android:layout_width="match_parent"
+   		    android:layout_height="wrap_content" >
+   		    <TextView 
+   		        android:labelFor="@+id/tunnel_local_port"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:text="@string/add_label_local_port" />
+   		    <EditText
+   		        android:id="@+id/tunnel_local_port"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:inputType="number"/>
+   		</TableRow>
+   		<TableRow
+   		    android:id="@+id/tunnel_reverse_row"
+   		    android:layout_width="match_parent"
+   		    android:layout_height="wrap_content" >
+   		    <TextView 
+   		        android:labelFor="@+id/tunnel_reverse"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"
+   		        android:text="@string/add_label_rev_tunnel" />
+   		    <CheckBox
+   		        android:id="@+id/tunnel_reverse"
+   		        android:layout_width="wrap_content"
+   		        android:layout_height="wrap_content"/>
+   		</TableRow>
+	</TableLayout>
+</ScrollView>

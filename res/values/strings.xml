@@ -58,4 +58,16 @@ Due to the fact that Android does not provide a console password manager, it is 
 Note that sshd operates at a console level independent of this application. If you leave this application, or even force kill it, sshd will continue to operate in the background. If you do not want this, don\'t forget to stop sshd before leaving.\n
 \n
 The only safe place to obtain this application is http://github.com/lbdroid/Android_SSH. If you found it anywhere else, then it has been compromised by eastern hackers or the NSA.</string>
+	<string name="add_label_name">Name: </string>
+	<string name="add_label_ssh_server">SSH Server: </string>
+	<string name="add_label_ssh_port">SSH Port: </string>
+	<string name="add_label_ssh_user">SSH User: </string>
+	<string name="add_label_ssh_pubkey">SSH Public Key: </string>
+	<string name="add_label_ssh_prikey">SSH Private Key: </string>
+	<string name="add_gen_keys">Generate Keys</string>
+	<string name="add_label_gen_keys">If using existing private key, public key may be left empty. Remember that the public key must be added to the SSH server\'s authorized_keys file for the user specified above. When you save the tunnel, the public key will be copied to your clipboard.</string>
+	<string name="add_label_tun_host">Tunnel Host: </string>
+	<string name="add_label_tun_port">Tunnel Host Port: </string>
+	<string name="add_label_local_port">Tunnel Local Port: </string>
+	<string name="add_label_rev_tunnel">Reverse Tunnel: </string>
 </resources>
