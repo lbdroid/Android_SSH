@@ -30,7 +30,7 @@ public class Main extends AppCompatActivity {
 	private FragmentManager fManager;
 	private AboutFragment aboutFragment;
 	private SettingsFragment settingsFragment;
-	private TunnelsFragment tunnelsFragment;
+	private TunnelFragment tunnelsFragment;
 	private RelativeLayout optionsList;
 	private boolean pollstate = true;
 	
@@ -315,7 +315,7 @@ public class Main extends AppCompatActivity {
 				fManager.beginTransaction().add(R.id.content_container,settingsFragment).addToBackStack(null).commit();
 				toolbar.setTitle(R.string.settings);
 			} else if(option == TUNNELS){
-				if (tunnelsFragment == null) tunnelsFragment = new TunnelsFragment();
+				if (tunnelsFragment == null) tunnelsFragment = new TunnelFragment();
 				fManager.beginTransaction().add(R.id.content_container,tunnelsFragment).addToBackStack(null).commit();
 				toolbar.setTitle(R.string.tunnels);
 			}

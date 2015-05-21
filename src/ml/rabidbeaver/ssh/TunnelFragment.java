@@ -29,7 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class TunnelsFragment extends Fragment {
+public class TunnelFragment extends Fragment {
 	private RecyclerView mRecyclerView;
 	private RecyclerView.Adapter<TunnelsAdapter.ViewHolder> mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -80,7 +80,7 @@ public class TunnelsFragment extends Fragment {
 									tunnel_host_port, tunnel_user, tunnel_reverse, tunnel_pubkey, null, tunnel_prikey, null);
 							
 							// refresh the TunnelsFragment.
-							TunnelsFragment.this.refresh();
+							TunnelFragment.this.refresh();
 							
 							// copy public key to clipboard
 							ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
