@@ -1,9 +1,7 @@
 package ml.rabidbeaver.ssh;
 
+import java.io.DataOutputStream;
 import java.io.File;
-
-import com.stericson.RootShell.RootShell;
-import com.stericson.RootShell.execution.Command;
 
 import android.annotation.TargetApi;
 import android.content.ClipData;
@@ -158,34 +156,47 @@ public class TunnelFragment extends Fragment {
 			public void onClick(final View v) {
 				Log.d("TUNNELSFRAGMENT","Pressed GENERATE KEYS button");
 				final String tmppath=v.getContext().getApplicationInfo().dataDir+"/files";
-				if (RootShell.isAccessGiven()){
-					String cmd1 = "/system/bin/ssh-keygen -f "+tmppath+"/tmp-id_rsa -N '' -t rsa";
-					String cmd2 = "chmod 666 "+tmppath+"/tmp-id_*";
-					String cmd3 = "OWNER=`ls -lad tmppath`";
-					String cmd4 = "chown $OWNER.$OWNER "+tmppath+"/*";
-					Command command = new Command(0, cmd1, cmd2, cmd3, cmd4){
-						@Override
-					    public void commandCompleted(int id, int exitcode) {
-							String prikey = FileIO.readFromFile(v.getContext(), "tmp-id_rsa");
-							Log.d("PRIKEY",prikey);
-							String pubkey = FileIO.readFromFile(v.getContext(), "tmp-id_rsa.pub");
-							Log.d("PUBKEY",pubkey);
-							new File(tmppath+"/tmp-id_rsa").delete();
-							new File(tmppath+"/tmp-id_rsa.pub").delete();
-							EditText pub_key = (EditText) tunnel_form.findViewById(R.id.tunnel_pubkey);
-							EditText pri_key = (EditText) tunnel_form.findViewById(R.id.tunnel_prikey);
-							pub_key.setText(pubkey);
-							pub_key.setEnabled(false);
-							pri_key.setText(prikey);
-							pri_key.setEnabled(false);
-						}
-					};
-					try {
-						// I don't want to run this as root, but something weird happens and it crashes
-						// hard on nexus 9 when run as a normal user. Could be selinux related?
-						RootShell.getShell(true).add(command);
-						RootShell.closeShell(true);
-					} catch (Exception e) { Log.d("EXCEPTION",e.getLocalizedMessage()); }
+				//String cmd1 = "/system/bin/ssh-keygen -f "+tmppath+"/tmp-id_rsa -N '' -t rsa";
+	
+				try {
+					//Process keygen = Runtime.getRuntime().exec(cmd1);
+					//TODO: figure out some way to code genkey.sh contents into exec...
+					Process keygen = Runtime.getRuntime().exec("/data/data/ml.rabidbeaver.ssh/bin/genkey.sh");
+					DataOutputStream outputStream = new DataOutputStream(keygen.getOutputStream());
+				    outputStream.writeBytes("\n\n"); // password: blank
+				    outputStream.flush();
+					keygen.waitFor();
+						
+						
+					/* current bin/genkey.sh:
+					 * 
+					 * #!/system/xbin/ash
+					 * export LD_LIBRARY_PATH=/vendor/lib:/system/lib
+					 * export HOME=/data/data/ml.rabidbeaver.ssh
+					 * #export TERM=vt100
+					 * export TERM=screen
+					 * export SHELL=/system/bin/sh
+					 * ssh-keygen -f /data/data/ml.rabidbeaver.ssh/files/tmp-id_rsa -t rsa
+					 */
+						
+					// This file created is good, but somewhere between here and pulling it from the database,
+					// it is corrupted. Seems that line breaks are removed?
+					//TODO: fix it!
+					String prikey = FileIO.readFromFile(v.getContext(), "tmp-id_rsa");
+					Log.d("PRIKEY",prikey);
+					String pubkey = FileIO.readFromFile(v.getContext(), "tmp-id_rsa.pub");
+					Log.d("PUBKEY",pubkey);
+					//new File(tmppath+"/tmp-id_rsa").delete();
+					new File(tmppath+"/tmp-id_rsa.pub").delete();
+					EditText pub_key = (EditText) tunnel_form.findViewById(R.id.tunnel_pubkey);
+					EditText pri_key = (EditText) tunnel_form.findViewById(R.id.tunnel_prikey);
+					pub_key.setText(pubkey);
+					pub_key.setEnabled(false);
+					pri_key.setText(prikey);
+					pri_key.setEnabled(false);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					Log.d("TUNNELFRAGMENT-EXCEPTION",e.getLocalizedMessage());
 				}
 			}
 		});

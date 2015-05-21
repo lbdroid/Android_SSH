@@ -18,6 +18,8 @@ public class TunnelService extends Service {
 	public static final int MSG_DROP_TUNNEL = 2;
 	public static final int MSG_DROP_ALL_TUNNELS = 3;
 	
+	public int monport = 20000;
+	
 	private List<Tunnel> tunnels = new ArrayList<Tunnel>();
 	private List<BoundProcess> processes = new ArrayList<BoundProcess>();
 	private final Messenger mMessenger = new Messenger(new IncomingHandler(this));
@@ -88,7 +90,8 @@ public class TunnelService extends Service {
 		Tunnel t = tm.getTunnel(uuid);
 		tm.close();
 		tunnels.add(t);
-		t.connect();
+		t.connect(monport, this);
+		monport += 2;
 	}
 	
 	private void stopTunnel(String uuid){
