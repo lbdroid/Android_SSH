@@ -14,6 +14,7 @@
     <string name="about">About</string>
     <string name="tunnels">Tunnels</string>
     <string name="tunnel_chooser">Tunnel Chooser</string>
+    <string name="tunnel_service">Tunnel Service</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="sshd_state">SSHD State:</string>
@@ -39,7 +40,7 @@
 \n
 The first thing to note, is that this is NOT a shell. This application does not store logins. This application does not provide you with a "direct" interface to log into an SSH server.\n
 \n
-The second thing to note, is that this REQUIRES both root access to your device, as well as busybox. If you don\'t know what either of those are, then this application is definitely not for you. Uninstall and move along...\n
+The second thing to note, is that this REQUIRES both root access to your device, as well as busybox. If you don\'t know what either of those are, then this application is definitely not for you. Uninstall and move along&#8230;\n
 \n
 This application has two functions;\n
 1) Installation of OpenSSH (and related) binaries to your system. Specifically, ssh, sshd, sftp, sftp-server, scp, ssh-keygen, openssl, and gzip. gzip wasn\'t the objective, but being a dependency, it came along for the ride.\n
