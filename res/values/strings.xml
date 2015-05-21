@@ -17,6 +17,10 @@
     <string name="tunnel_service">Tunnel Service</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="expand">Expand</string>
+    <string name="collapse">Collapse</string>
+    <string name="start_hold">Start/Hold</string>
+    <string name="tunnel_edit">Edit</string>
     <string name="sshd_state">SSHD State:</string>
     <string name="sshd_state_running">RUNNING</string>
     <string name="sshd_state_stopped">STOPPED</string>
@@ -71,4 +75,6 @@ The only safe place to obtain this application is http://github.com/lbdroid/Andr
 	<string name="add_label_tun_port">Tunnel Host Port: </string>
 	<string name="add_label_local_port">Tunnel Local Port: </string>
 	<string name="add_label_rev_tunnel">Reverse Tunnel: </string>
+	<string name="cv_label_direction">Direction: </string>
+	<string name="tunnel_copy_pubkey">Copy Key</string>
 </resources>

@@ -2,13 +2,232 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="5dp"
-    card_view:cardCornerRadius="5dp">
-	<TextView
-	    android:id="@+id/card_text"
-    	android:layout_width="match_parent"
-    	android:layout_height="wrap_content" />
+    android:orientation="horizontal"
+    card_view:cardCornerRadius="5dp" >
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+		<!-- ImageView shows red/yellow/green circle indicating the status of the tunnel;
+		red = stopped, yellow = held by 3rd party application (cannot depend on it remaining open),
+		green = running with manual hold. -->
+        <ImageView
+            android:id="@+id/tunnel_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/red_circle"
+            tools:ignore="ContentDescription" />
+		<!-- Name of the tunnel -->
+        <TextView
+            android:id="@+id/tun_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tunnel_status" />
+		<!-- Press button to expand view for more details and options. -->
+        <ImageButton
+            android:id="@+id/card_expand_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="#FFFFFFFF"
+            android:contentDescription="@string/expand"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:src="@drawable/ic_action_expand" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/expansion_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="vertical"
+        android:visibility="gone" >
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:shrinkColumns="1" >
+            <TableRow
+                android:layout_width="match_parent"
+            	android:layout_height="wrap_content" >
+            	<TextView
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content"
+            	    android:textStyle="bold"
+            	    android:text="@string/add_label_ssh_server" />
+            	<TextView
+            	    android:id="@+id/cv_server"
+            	    android:paddingLeft="10dp"
+            	    android:paddingRight="10dp"
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+            	android:layout_height="wrap_content" >
+            	<TextView
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content"
+            	    android:textStyle="bold"
+            	    android:text="@string/add_label_ssh_port" />
+            	<TextView
+            	    android:id="@+id/cv_port"
+            	    android:paddingLeft="10dp"
+            	    android:paddingRight="10dp"
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+            	android:layout_height="wrap_content" >
+            	<TextView
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content"
+            	    android:textStyle="bold"
+            	    android:text="@string/add_label_ssh_user" />
+            	<TextView
+            	    android:id="@+id/cv_user"
+            	    android:paddingLeft="10dp"
+            	    android:paddingRight="10dp"
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content" />
+            </TableRow>
+            <TableRow
+                android:id="@+id/cv_row_pubkey"
+                android:layout_width="match_parent"
+            	android:layout_height="wrap_content"
+            	android:visibility="gone" >
+            	<TextView
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content"
+            	    android:textStyle="bold"
+            	    android:text="@string/add_label_ssh_pubkey" />
+            	<TextView
+            	    android:id="@+id/cv_pubkey"
+            	    android:paddingLeft="10dp"
+            	    android:paddingRight="10dp"
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+            	android:layout_height="wrap_content" >
+            	<TextView
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content"
+            	    android:textStyle="bold"
+            	    android:text="@string/add_label_tun_host" />
+            	<TextView
+            	    android:id="@+id/cv_tun_host"
+            	    android:paddingLeft="10dp"
+            	    android:paddingRight="10dp"
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+            	android:layout_height="wrap_content" >
+            	<TextView
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content"
+            	    android:textStyle="bold"
+            	    android:text="@string/add_label_tun_port" />
+            	<TextView
+            	    android:id="@+id/cv_tun_port"
+            	    android:paddingLeft="10dp"
+            	    android:paddingRight="10dp"
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+            	android:layout_height="wrap_content" >
+            	<TextView
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content"
+            	    android:textStyle="bold"
+            	    android:text="@string/add_label_local_port" />
+            	<TextView
+            	    android:id="@+id/cv_local_port"
+            	    android:paddingLeft="10dp"
+            	    android:paddingRight="10dp"
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+            	android:layout_height="wrap_content" >
+            	<TextView
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content"
+            	    android:textStyle="bold"
+            	    android:text="@string/cv_label_direction" />
+            	<TextView
+            	    android:id="@+id/cv_direction"
+            	    android:paddingLeft="10dp"
+            	    android:paddingRight="10dp"
+            	    android:layout_width="wrap_content"
+            	    android:layout_height="wrap_content" />
+            </TableRow>
+        </TableLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+        	android:layout_height="wrap_content" >
+        	<LinearLayout
+        	    android:layout_width="wrap_content"
+        	    android:layout_height="wrap_content"
+        	    android:layout_alignParentLeft="true"
+        	    android:orientation="horizontal" >
+        	    <Button
+        	        android:id="@+id/start_hold_button"
+        	        android:layout_width="wrap_content"
+        	        android:layout_height="wrap_content"
+        	        style="?android:attr/buttonBarButtonStyle"
+        	        android:text="@string/start_hold" />
+        	    <Button
+        	        android:id="@+id/edit_button"
+        	        android:layout_width="wrap_content"
+        	        android:layout_height="wrap_content"
+        	        style="?android:attr/buttonBarButtonStyle"
+        	        android:text="@string/tunnel_edit" />
+        	    <Button
+        	        android:id="@+id/copy_pubkey"
+        	        android:visibility="gone"
+        	        android:layout_width="wrap_content"
+        	        android:layout_height="wrap_content"
+        	        style="?android:attr/buttonBarButtonStyle"
+        	        android:text="@string/tunnel_copy_pubkey" />
+			</LinearLayout>
+        	<!-- Press button to collapse view. -->
+        	<ImageButton
+            	android:id="@+id/card_collapse_button"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:layout_alignParentRight="true"
+            	android:background="#FFFFFFFF"
+            	android:contentDescription="@string/collapse"
+            	android:paddingBottom="5dp"
+            	android:paddingLeft="10dp"
+            	android:paddingRight="10dp"
+            	android:paddingTop="5dp"
+	            android:src="@drawable/ic_action_collapse" />
+        </RelativeLayout>
+            
+    </LinearLayout>
+	</LinearLayout>
 </android.support.v7.widget.CardView>
