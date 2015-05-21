@@ -8,11 +8,18 @@ import com.stericson.RootShell.execution.Command;
 import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Outline;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -39,6 +46,10 @@ public class TunnelFragment extends Fragment {
     private Tunnel[] mTunnelArray;
     private LayoutInflater inflater;
     private ViewGroup container;
+    
+    private Messenger mService = null;
+    private boolean mBound = false;
+    private Message mMessage = null;
 	
 	public View onCreateView(final LayoutInflater inf,final ViewGroup con,Bundle savedInstanceState){
 		this.inflater=inf;
@@ -239,8 +250,23 @@ public class TunnelFragment extends Fragment {
 	    	((Button)holder.mCardView.findViewById(R.id.start_hold_button)).setOnClickListener(new Button.OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
+					// TODO change this to a START service, for manual tunnel bringup/down. It is only suitable for
+					// externals to use bind service, in order to support auto-teardown.
 					
+					// In order to track the specific binder connection, the service needs to have enough
+					// information on the client to be able to track when the client process has terminated.
+					// The client pid + uid (which is attached to the message automatically) will suffice.
+					Message msg = Message.obtain(null, TunnelService.MSG_HOLDOPEN_TUNNEL, android.os.Process.myPid(), 0, mTunnelArray[position].getUuid());
+					if (!mBound){
+						TunnelFragment.this.getActivity().bindService(new Intent(v.getContext(), TunnelService.class), mConnection, Context.BIND_AUTO_CREATE);
+						mMessage = msg;
+					} else {
+						try {
+							mService.send(msg);
+						} catch (RemoteException e) {
+							e.printStackTrace();
+						}
+					}
 				}
 	    	});
 	    	((Button)holder.mCardView.findViewById(R.id.edit_button)).setOnClickListener(new Button.OnClickListener(){
@@ -266,5 +292,40 @@ public class TunnelFragment extends Fragment {
 	    public int getItemCount() {
 	        return mTunnelArray.length;
 	    }
-	}  
+	}
+	
+	private ServiceConnection mConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+        	Log.d("TUNNELFRAGMENT","setting up service");
+            mService = new Messenger(service);
+            mBound = true;
+            if (mMessage != null){
+            	try {
+					mService.send(mMessage);
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+            }
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            mService = null;
+            mBound = false;
+        }
+    };
+    
+    @Override
+	public void onStop(){
+    	super.onStop();
+    	if (mBound){
+    		Message msg = Message.obtain(null, TunnelService.MSG_DROP_ALL_TUNNELS, android.os.Process.myPid(), 0);
+    		try {
+				mService.send(msg);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+    		TunnelFragment.this.getActivity().unbindService(mConnection);
+    		mBound=false;
+    	}
+    }
 }
