@@ -3,11 +3,11 @@ package ml.rabidbeaver.ssh;
 public class Tunnel {
 	private int id, sshport, localport, hostport;
 	private boolean reverse;
-	private String name, sshhost, host, username, id_public_path, id_public, id_private_path, id_private, uuid;	
+	private String name, sshhost, host, username, id_public, id_private_path, id_private, uuid;	
 	
 	public Tunnel (int id, String name, String sshhost, int sshport, int localport, String host,
-			int hostport, String username, boolean reverse, String id_public_path, String id_public,
-			String id_private_path, String id_private, String uuid){
+			int hostport, String username, boolean reverse, String id_public, String id_private_path,
+			String id_private, String uuid){
 		this.id=id;
 		this.sshport=sshport;
 		this.localport=localport;
@@ -17,7 +17,6 @@ public class Tunnel {
 		this.sshhost=sshhost;
 		this.host=host;
 		this.username=username;
-		this.id_public_path=id_public_path;
 		this.id_public=id_public;
 		this.id_private_path=id_private_path;
 		this.id_private=id_private;
@@ -48,7 +47,6 @@ public class Tunnel {
 	protected int getHostPort(){ return hostport; }
 	protected String getUserName(){ return username; }
 	protected boolean isReverse(){ return reverse; }
-	protected String getIdPubPath(){ return id_public_path; }
 	protected String getIdPub(){ return id_public; }
 	protected String getIdPriPath(){ return id_private_path; }
 	protected String getIdPri(){ return id_private; }

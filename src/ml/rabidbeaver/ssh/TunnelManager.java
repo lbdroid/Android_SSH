@@ -40,8 +40,8 @@ public class TunnelManager extends SQLiteOpenHelper {
 		 */
 		String create = "CREATE TABLE tunnels (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
 				+ "name VARCHAR, sshhost VARCHAR, sshport INTEGER, localport INTEGER, host VARCHAR, "
-				+ "hostport INTEGER, username VARCHAR, reverse INTEGER, id_public_path VARCHAR, "
-				+ "id_public VARCHAR, id_private_path VARCHAR, id_private VARCHAR, uuid VARCHAR);";
+				+ "hostport INTEGER, username VARCHAR, reverse INTEGER, id_public VARCHAR, "
+				+ "id_private_path VARCHAR, id_private VARCHAR, uuid VARCHAR);";
 		db.execSQL(create);
 		// later on in a later version, we can add in a second table "tunnel_auth" to indicate which
 		// processes are authorized to open and hold which tunnels.
@@ -59,12 +59,12 @@ public class TunnelManager extends SQLiteOpenHelper {
 		Tunnel t = null;
 		// SELECT all_the_things FROM tunnels WHERE uuid=uuid
 		Cursor c = db.query("tunnels", new String[]{"id", "name", "sshhost", "sshport", "localport",
-				"host", "hostport", "username", "reverse", "id_public_path", "id_public", "id_private_path", "id_private"}, "uuid = ?",
+				"host", "hostport", "username", "reverse", "id_public", "id_private_path", "id_private"}, "uuid = ?",
 				new String[]{uuid}, null, null, null);
 		if (c != null && c.getCount() > 0){
 			c.moveToFirst();
 			t = new Tunnel(c.getInt(0), c.getString(1), c.getString(2), c.getInt(3), c.getInt(4), c.getString(5),
-					c.getInt(6), c.getString(7), c.getInt(8)>0, c.getString(9), c.getString(10), c.getString(11), c.getString(12), uuid);
+					c.getInt(6), c.getString(7), c.getInt(8)>0, c.getString(9), c.getString(10), c.getString(11), uuid);
 			c.close();
 		}
 		return t;
@@ -75,14 +75,14 @@ public class TunnelManager extends SQLiteOpenHelper {
 		Tunnel[] t = new Tunnel[0];
 		// SELECT all_the_things FROM tunnels
 		Cursor c = db.query("tunnels", new String[]{"id", "name", "sshhost", "sshport", "localport",
-				"host", "hostport", "username", "reverse", "id_public_path", "id_public", "id_private_path", "id_private", "uuid"}, null,
+				"host", "hostport", "username", "reverse", "id_public", "id_private_path", "id_private", "uuid"}, null,
 				null, null, null, null);
 		if (c != null && c.getCount() > 0){
 			t = new Tunnel[c.getCount()];
 			c.moveToFirst();
 			do {
 				t[c.getPosition()] = new Tunnel(c.getInt(0), c.getString(1), c.getString(2), c.getInt(3), c.getInt(4), c.getString(5),
-						c.getInt(6), c.getString(7), c.getInt(8)>0, c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13));
+						c.getInt(6), c.getString(7), c.getInt(8)>0, c.getString(9), c.getString(10), c.getString(11), c.getString(12));
 			} while (c.moveToNext());
 			c.close();
 		}
@@ -90,8 +90,8 @@ public class TunnelManager extends SQLiteOpenHelper {
 	}
 	
 	protected Tunnel addOrUpdateTunnel(String name, String sshhost, int sshport, int localport, String host,
-			int hostport, String username, boolean reverse, String id_public_path, String id_public,
-			String id_private_path, String id_private, String uuid){
+			int hostport, String username, boolean reverse, String id_public, String id_private_path,
+			String id_private, String uuid){
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put("name", name);
@@ -108,12 +108,10 @@ public class TunnelManager extends SQLiteOpenHelper {
 			// add new tunnel
 			String newuuid = UUID.randomUUID().toString();
 			values.put("uuid", newuuid);
-			values.put("id_public_path", newuuid+".pub");
-			values.put("id_private_path", newuuid);
+			values.put("id_private_path", newuuid+".id");
 			if (db.insert("tunnels", null, values) >= 0) return getTunnel(newuuid);
 		} else {
 			// update tunnel with uuid
-			values.put("id_public_path", id_public_path);
 			values.put("id_private_path", id_private_path);
 			db.update("tunnels", values, "uuid = ?", new String[]{uuid});
 			return getTunnel(uuid);

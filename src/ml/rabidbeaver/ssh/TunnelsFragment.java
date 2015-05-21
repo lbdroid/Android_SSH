@@ -36,7 +36,7 @@ public class TunnelsFragment extends Fragment {
     private TunnelManager tunnelManager;
     private Tunnel[] mTunnelArray;
 	
-	public View onCreateView(final LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
+	public View onCreateView(final LayoutInflater inflater,final ViewGroup container,Bundle savedInstanceState){
 		View v = inflater.inflate(R.layout.tunnels,container,false);
 		tunnelManager = new TunnelManager(v.getContext());
 		
@@ -55,7 +55,7 @@ public class TunnelsFragment extends Fragment {
 			public void onClick(final View v) {
 				// What to do to create a new ssh tunnel.
 				// create dialog/form for the tunnel details.
-				final View tunnel_form = inflater.inflate(R.layout.tunnel_add_edit, null);
+				final View tunnel_form = inflater.inflate(R.layout.tunnel_add_edit, container, false);
 				final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 				builder.setTitle("New Tunnel");
 				builder.setPositiveButton("Add Tunnel", new DialogInterface.OnClickListener(){
@@ -77,7 +77,7 @@ public class TunnelsFragment extends Fragment {
 								&& tunnel_local_port > 0 && tunnel_prikey.length() > 0){ // if everything checks out...
 							
 							tunnelManager.addOrUpdateTunnel(tunnel_name, tunnel_server, tunnel_server_port, tunnel_local_port, tunnel_host,
-									tunnel_host_port, tunnel_user, tunnel_reverse, null, tunnel_pubkey, null, tunnel_prikey, null);
+									tunnel_host_port, tunnel_user, tunnel_reverse, tunnel_pubkey, null, tunnel_prikey, null);
 							
 							// refresh the TunnelsFragment.
 							TunnelsFragment.this.refresh();
