@@ -1,19 +1,15 @@
 package ml.rabidbeaver.ssh;
 
-import java.io.IOException;
+import java.io.DataOutputStream;
 
 import android.content.Context;
 import android.util.Log;
-
-import com.stericson.RootShell.RootShell;
-import com.stericson.RootShell.execution.Command;
-import com.stericson.RootShell.execution.Shell;
 
 public class Tunnel {
 	private int id, sshport, localport, hostport;
 	private boolean reverse;
 	private String name, sshhost, host, username, id_public, id_private_path, id_private, uuid;
-	private Shell autossh;
+	private Process tunnelrunner = null;
 	
 	public Tunnel (int id, String name, String sshhost, int sshport, int localport, String host,
 			int hostport, String username, boolean reverse, String id_public, String id_private_path,
@@ -36,26 +32,18 @@ public class Tunnel {
 	protected boolean connect(int monport, Context ctx){
 		if (FileIO.readFromFile(ctx, id_private_path).length() < 10)
 			FileIO.writeToFile(ctx, id_private_path, id_private);
-		
-		if (RootShell.isAccessGiven()){
-			String cmd = "autossh -M"+Integer.toString(monport)+" -NL "+Integer.toString(localport)+":"+host+":"+Integer.toString(hostport)+" "+username+"@"+sshhost+" -p"+Integer.toString(sshport)+" -i "+ctx.getApplicationInfo().dataDir+"/files/"+id_private_path;
-			Log.d("TUNNEL",cmd);
-			Command command = new Command(0, cmd){
-				@Override
-			    public void commandCompleted(int id, int exitcode) {
-					// command is completed....
-					Log.d("TUNNEL","command completed");
-				}
-				@Override
-			    public void commandTerminated(int id, String reason) {
-					// command is terminated....
-					Log.d("TUNNEL","command terminated");
-				}
-			};
-			try {
-				autossh = RootShell.getShell(true);
-				autossh.add(command);
-			} catch (Exception e) { Log.d("EXCEPTION",e.getLocalizedMessage()); return false; }
+		String cmd = "/system/bin/autossh -M "+Integer.toString(monport)+" -NL "+Integer.toString(localport)+":"+host+":"+Integer.toString(hostport)+" "+username+"@"+sshhost+" -p"+Integer.toString(sshport)+" -i "+ctx.getApplicationInfo().dataDir+"/files/"+id_private_path+" -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no\n";
+		Log.d("TUNNEL",cmd);
+			
+		try {
+			tunnelrunner = Runtime.getRuntime().exec("su --context u:r:system_app:s0");
+			DataOutputStream outputStream = new DataOutputStream(tunnelrunner.getOutputStream());
+		    outputStream.writeBytes(cmd);
+		    outputStream.flush();
+		    
+			//tunnelrunner.waitFor();
+		} catch (Exception e) {
+			Log.d("TUNNELFRAGMENT-EXCEPTION",e.getLocalizedMessage());
 		}
 		
 		return true;
@@ -65,9 +53,10 @@ public class Tunnel {
 		/* TODO!!!!!
 		 * Kill the thread with the tunnel in it.
 		 */
-		try {
-			autossh.close();
-		} catch (IOException e) {}
+		//try {
+		//	RootShell.closeShell(true);
+		//} catch (IOException e) {}
+		if (tunnelrunner != null) tunnelrunner.destroy();
 	}
 	
 	protected int getId(){ return id; }
