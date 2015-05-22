@@ -2,6 +2,9 @@ package ml.rabidbeaver.ssh;
 
 import java.io.DataOutputStream;
 
+import com.stericson.RootShell.RootShell;
+import com.stericson.RootShell.execution.Command;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -10,6 +13,7 @@ public class Tunnel {
 	private boolean reverse;
 	private String name, sshhost, host, username, id_public, id_private_path, id_private, uuid;
 	private Process tunnelrunner = null;
+	private DataOutputStream outputStream;
 	
 	public Tunnel (int id, String name, String sshhost, int sshport, int localport, String host,
 			int hostport, String username, boolean reverse, String id_public, String id_private_path,
@@ -32,16 +36,16 @@ public class Tunnel {
 	protected boolean connect(int monport, Context ctx){
 		if (FileIO.readFromFile(ctx, id_private_path).length() < 10)
 			FileIO.writeToFile(ctx, id_private_path, id_private);
-		String cmd = "/system/bin/autossh -M "+Integer.toString(monport)+" -NL "+Integer.toString(localport)+":"+host+":"+Integer.toString(hostport)+" "+username+"@"+sshhost+" -p"+Integer.toString(sshport)+" -i "+ctx.getApplicationInfo().dataDir+"/files/"+id_private_path+" -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no\n";
+		String pidfile = ctx.getApplicationInfo().dataDir+"/files/"+uuid+".pid";
+		String cmd = "AUTOSSH_PIDFILE="+pidfile+" /system/bin/autossh -M "+Integer.toString(monport)+" -NL "+Integer.toString(localport)+":"+host+":"+Integer.toString(hostport)+" "+username+"@"+sshhost+" -p"+Integer.toString(sshport)+" -i "+ctx.getApplicationInfo().dataDir+"/files/"+id_private_path+" -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no\n";
 		Log.d("TUNNEL",cmd);
 			
 		try {
 			tunnelrunner = Runtime.getRuntime().exec("su --context u:r:system_app:s0");
-			DataOutputStream outputStream = new DataOutputStream(tunnelrunner.getOutputStream());
+			outputStream = new DataOutputStream(tunnelrunner.getOutputStream());
 		    outputStream.writeBytes(cmd);
 		    outputStream.flush();
-		    
-			//tunnelrunner.waitFor();
+		    outputStream.close();
 		} catch (Exception e) {
 			Log.d("TUNNELFRAGMENT-EXCEPTION",e.getLocalizedMessage());
 		}
@@ -49,14 +53,16 @@ public class Tunnel {
 		return true;
 	}
 	
-	protected void disconnect(){
-		/* TODO!!!!!
-		 * Kill the thread with the tunnel in it.
-		 */
-		//try {
-		//	RootShell.closeShell(true);
-		//} catch (IOException e) {}
-		if (tunnelrunner != null) tunnelrunner.destroy();
+	protected void disconnect(Context ctx){
+		Log.d("TUNNEL","destroy the tunnel");
+		
+		if (tunnelrunner != null && RootShell.isAccessGiven()){
+			Command command = new Command(0,"kill -SIGINT `cat "+ctx.getApplicationInfo().dataDir+"/files/"+uuid+".pid`");
+			try {
+				RootShell.getShell(true).add(command);
+				RootShell.closeShell(true);
+			} catch (Exception e) {}
+		}
 	}
 	
 	protected int getId(){ return id; }

@@ -98,7 +98,7 @@ public class TunnelService extends Service {
 		for (int i=0; i<tunnels.size(); i++){
 			Tunnel t = tunnels.get(i);
 			if (t.getUuid().equals(uuid)){
-				t.disconnect();
+				t.disconnect(this);
 				tunnels.remove(i);
 				break;
 			}
