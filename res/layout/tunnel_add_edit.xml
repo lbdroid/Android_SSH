@@ -94,7 +94,11 @@
    		        android:id="@+id/tunnel_prikey"
    		        android:layout_width="wrap_content"
    		        android:layout_height="wrap_content"
-   		        android:inputType="text"/>
+   		        android:inputType="textMultiLine"
+   		        android:minLines="6"
+    			android:gravity="top|left"
+    			android:maxLines="10"
+    			android:scrollbars="vertical" />
    		</TableRow>
    		<TableRow
    		    android:layout_width="match_parent"

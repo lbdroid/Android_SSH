@@ -50,6 +50,22 @@ public class FileIO {
 
 	    return ret;
 	}
+	
+	public static String readFromFile2(Context ctx, String filename){
+		FileInputStream fis;
+		StringBuffer fileContent = new StringBuffer("");
+		byte[] buffer = new byte[1024];
+		int n;
+		try {
+			fis = ctx.openFileInput(filename);
+			while ((n = fis.read(buffer)) != -1)
+				fileContent.append(new String(buffer, 0, n)); 
+		} catch (Exception e) {
+			Log.d("FileIO-Exception",e.getMessage());
+		}
+
+		return fileContent.toString();
+	}
 
 	public static void writeToFile(Context ctx, String filename, String data) {
 	    try {

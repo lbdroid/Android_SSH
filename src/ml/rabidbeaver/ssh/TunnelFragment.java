@@ -2,6 +2,9 @@ package ml.rabidbeaver.ssh;
 
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.InputStream;
+import java.util.Map;
+import java.util.Set;
 
 import android.annotation.TargetApi;
 import android.content.ClipData;
@@ -156,37 +159,50 @@ public class TunnelFragment extends Fragment {
 			public void onClick(final View v) {
 				Log.d("TUNNELSFRAGMENT","Pressed GENERATE KEYS button");
 				final String tmppath=v.getContext().getApplicationInfo().dataDir+"/files";
-				//String cmd1 = "/system/bin/ssh-keygen -f "+tmppath+"/tmp-id_rsa -N '' -t rsa";
+				String cmd = "/system/bin/ssh-keygen -f "+tmppath+"/tmp-id_rsa -t rsa";
 	
 				try {
-					//Process keygen = Runtime.getRuntime().exec(cmd1);
-					//TODO: figure out some way to code genkey.sh contents into exec...
-					Process keygen = Runtime.getRuntime().exec("/data/data/ml.rabidbeaver.ssh/bin/genkey.sh");
+					// Get the system environment and convert to String[]
+					Map<String, String> env = System.getenv();
+					Set<String> envkeys = env.keySet();
+					String[] keyarr = envkeys.toArray(new String[0]);
+					String[] envp = new String[keyarr.length+1];
+					for (int i=0; i<keyarr.length; i++){
+						envp[i] = new String(keyarr[i]+"="+env.get(keyarr[i]));
+						Log.d("TUNNELFRAGMENT-env",envp[i]);
+					}
+					// Add missing HOME variable to environment
+					envp[keyarr.length]="HOME="+v.getContext().getApplicationInfo().dataDir;
+					// Delete old files if they remain
+					new File(tmppath+"/tmp-id_rsa").delete();
+					new File(tmppath+"/tmp-id_rsa.pub").delete();
+					// Run our command
+					Process keygen = Runtime.getRuntime().exec(cmd, envp);
 					DataOutputStream outputStream = new DataOutputStream(keygen.getOutputStream());
-				    outputStream.writeBytes("\n\n"); // password: blank
+					// Make the password blank
+				    outputStream.writeBytes("\n\n");
 				    outputStream.flush();
+				    
+				    // Read the result
+				    InputStream stdout = keygen.getInputStream();
+				    byte[] buffer = new byte[1024];
+				    int read;
+				    String out = new String();
+				    
+				    while(true){
+				        read = stdout.read(buffer);
+				        out += new String(buffer, 0, read);
+				        if(read<1024) break;
+				    }
+				    Log.d("TUNNELFRAGMENT",out);
+				    
 					keygen.waitFor();
-						
-						
-					/* current bin/genkey.sh:
-					 * 
-					 * #!/system/xbin/ash
-					 * export LD_LIBRARY_PATH=/vendor/lib:/system/lib
-					 * export HOME=/data/data/ml.rabidbeaver.ssh
-					 * #export TERM=vt100
-					 * export TERM=screen
-					 * export SHELL=/system/bin/sh
-					 * ssh-keygen -f /data/data/ml.rabidbeaver.ssh/files/tmp-id_rsa -t rsa
-					 */
-						
-					// This file created is good, but somewhere between here and pulling it from the database,
-					// it is corrupted. Seems that line breaks are removed?
-					//TODO: fix it!
-					String prikey = FileIO.readFromFile(v.getContext(), "tmp-id_rsa");
+					
+					String prikey = FileIO.readFromFile2(v.getContext(), "tmp-id_rsa");
 					Log.d("PRIKEY",prikey);
-					String pubkey = FileIO.readFromFile(v.getContext(), "tmp-id_rsa.pub");
+					String pubkey = FileIO.readFromFile2(v.getContext(), "tmp-id_rsa.pub");
 					Log.d("PUBKEY",pubkey);
-					//new File(tmppath+"/tmp-id_rsa").delete();
+					new File(tmppath+"/tmp-id_rsa").delete();
 					new File(tmppath+"/tmp-id_rsa.pub").delete();
 					EditText pub_key = (EditText) tunnel_form.findViewById(R.id.tunnel_pubkey);
 					EditText pri_key = (EditText) tunnel_form.findViewById(R.id.tunnel_prikey);
@@ -195,7 +211,6 @@ public class TunnelFragment extends Fragment {
 					pri_key.setText(prikey);
 					pri_key.setEnabled(false);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					Log.d("TUNNELFRAGMENT-EXCEPTION",e.getLocalizedMessage());
 				}
 			}
