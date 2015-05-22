@@ -18,11 +18,21 @@ public class TunnelService extends Service {
 	public static final int MSG_DROP_TUNNEL = 2;
 	public static final int MSG_DROP_ALL_TUNNELS = 3;
 	
+	public static final int COLOR_RED = 0;
+	public static final int COLOR_YELLOW = 1;
+	public static final int COLOR_GREEN = 2;
+	
 	public int monport = 20000;
 	
 	private List<Tunnel> tunnels = new ArrayList<Tunnel>();
 	private List<BoundProcess> processes = new ArrayList<BoundProcess>();
-	private final Messenger mMessenger = new Messenger(new IncomingHandler(this));
+	private List<String> lockedTunnels = new ArrayList<String>();
+	private final IncomingHandler mHandler = new IncomingHandler(this);
+	private final Messenger mMessenger = new Messenger(mHandler);
+	
+	private static boolean isBound = false;
+	private static boolean isStarted = false;
+	private static TunnelService runningInstance = null;
 	
 	private static class IncomingHandler extends Handler {
 		private final WeakReference<TunnelService> mService;
@@ -128,14 +138,85 @@ public class TunnelService extends Service {
 			this.uuid=uuid; this.pid=pid; this.uid=uid;
 		}
 	}
+	
+	public static boolean isRunning(){
+		return isBound||isStarted;
+	}
+	
+	public static TunnelService getInstance(){
+		return runningInstance;
+	}
+	
+	public void lockTunnel(String Uuid){
+		lockedTunnels.add(Uuid);
+		startTunnel(Uuid);
+		for (int i=0; i<tunnels.size(); i++)
+			if (tunnels.get(i).equals(Uuid))
+				tunnels.get(i).manual = true;
+	}
+	
+	public void unlockTunnel(String Uuid){
+		for (int i=0; i<lockedTunnels.size(); i++)
+			if (lockedTunnels.get(i).equals(Uuid)){
+				lockedTunnels.remove(i);
+				i--;
+			}
+		for (int i=0; i<tunnels.size(); i++)
+			if (tunnels.get(i).equals(Uuid))
+				tunnels.get(i).manual = false;
+		stopTunnel(Uuid);
+	}
+	
+	public boolean isLocked(String Uuid){
+		boolean isLocked = false;
+		for (int i=0; i<lockedTunnels.size(); i++)
+			if (lockedTunnels.get(i).equals(Uuid)){
+				isLocked=true;
+				break;
+			}
+		return isLocked;
+	}
+	
+	public boolean isManual(){
+		return lockedTunnels.size() > 0;
+	}
+	
+	public int getColor(String Uuid){
+		for (int i=0; i<lockedTunnels.size(); i++)
+			if (lockedTunnels.get(i).equals(Uuid))
+				return COLOR_GREEN;
+		for (int i=0; i<tunnels.size(); i++)
+			if (tunnels.get(i).getUuid().equals(Uuid))
+				return COLOR_YELLOW;
+		return COLOR_RED;
+	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
+		isBound = true;
+		runningInstance = this;
 		return mMessenger.getBinder();
 	}
 
 	@Override
     public void onDestroy() {
-        Toast.makeText(this, "TunnelService ending.", Toast.LENGTH_SHORT).show();
+		super.onDestroy();
+		isStarted = false;
+		if (!isBound) runningInstance = null;
     }
+	
+	@Override
+	public boolean onUnbind(Intent intent){
+		isBound = false;
+		if (!isStarted) runningInstance = null;
+		return false;
+	}
+	
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+		isStarted = true;
+		runningInstance = this;
+		return START_STICKY;
+	}
 }

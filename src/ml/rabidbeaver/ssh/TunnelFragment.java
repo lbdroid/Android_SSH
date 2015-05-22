@@ -18,9 +18,6 @@ import android.graphics.Outline;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -48,15 +45,20 @@ public class TunnelFragment extends Fragment {
     private LayoutInflater inflater;
     private ViewGroup container;
     
-    private Messenger mService = null;
     private boolean mBound = false;
-    private Message mMessage = null;
+    
+    private TunnelService tunnelService = null;
+    private Intent intent;
 	
 	public View onCreateView(final LayoutInflater inf,final ViewGroup con,Bundle savedInstanceState){
 		this.inflater=inf;
 		this.container=con;
 		View v = inflater.inflate(R.layout.tunnels,container,false);
 		tunnelManager = new TunnelManager(v.getContext());
+		
+		intent = new Intent(v.getContext(), TunnelService.class);
+		v.getContext().startService(intent);
+		v.getContext().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 		
 		ImageButton fab = (ImageButton) v.findViewById(R.id.add_tunnel_button);
 		fab.setOutlineProvider(new ViewOutlineProvider() {
@@ -85,6 +87,31 @@ public class TunnelFragment extends Fragment {
         mAdapter = new TunnelsAdapter();
         
         mRecyclerView.setAdapter(mAdapter);
+        
+        new Thread(new Runnable(){
+			@Override
+			public void run() {
+				while (true){
+				if (tunnelService != null)
+					for (int i=0; i<mRecyclerView.getChildCount(); i++){
+						final CardView c = (CardView) mRecyclerView.getChildAt(i);
+						String uuid = ((TextView)c.findViewById(R.id.card_tunnel_uuid)).getText().toString();
+						final int color = tunnelService.getColor(uuid);
+						getActivity().runOnUiThread(new Runnable(){
+					        public void run(){
+					        	c.findViewById(R.id.tunnel_status_red).setVisibility(color==TunnelService.COLOR_RED?View.VISIBLE:View.GONE);
+								c.findViewById(R.id.tunnel_status_yellow).setVisibility(color==TunnelService.COLOR_YELLOW?View.VISIBLE:View.GONE);
+								c.findViewById(R.id.tunnel_status_green).setVisibility(color==TunnelService.COLOR_GREEN?View.VISIBLE:View.GONE);
+							}
+					    });
+						
+					}
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {}
+				}
+			}
+        }).start();
 		
 		return v;
 	}
@@ -242,6 +269,7 @@ public class TunnelFragment extends Fragment {
 
 	    @Override
 	    public void onBindViewHolder(ViewHolder holder, final int position) {
+	    	((TextView)holder.mCardView.findViewById(R.id.card_tunnel_uuid)).setText(mTunnelArray[position].getUuid());
 	    	((TextView)holder.mCardView.findViewById(R.id.tun_name)).setText(mTunnelArray[position].getName().toUpperCase());
 	    	((ImageButton)holder.mCardView.findViewById(R.id.card_expand_button)).setOnClickListener(new ImageButton.OnClickListener(){
 				@Override
@@ -276,23 +304,11 @@ public class TunnelFragment extends Fragment {
 	    	((Button)holder.mCardView.findViewById(R.id.start_hold_button)).setOnClickListener(new Button.OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					// TODO change this to a START service, for manual tunnel bringup/down. It is only suitable for
-					// externals to use bind service, in order to support auto-teardown.
-					
-					// In order to track the specific binder connection, the service needs to have enough
-					// information on the client to be able to track when the client process has terminated.
-					// The client pid + uid (which is attached to the message automatically) will suffice.
-					Message msg = Message.obtain(null, TunnelService.MSG_HOLDOPEN_TUNNEL, android.os.Process.myPid(), 0, mTunnelArray[position].getUuid());
-					if (!mBound){
-						TunnelFragment.this.getActivity().bindService(new Intent(v.getContext(), TunnelService.class), mConnection, Context.BIND_AUTO_CREATE);
-						mMessage = msg;
-					} else {
-						try {
-							mService.send(msg);
-						} catch (RemoteException e) {
-							e.printStackTrace();
-						}
-					}
+					if (tunnelService != null){
+						Log.d("TUNNELFRAGMENT-TOGGLE","toggling tunnel.. locked:"+Boolean.toString(tunnelService.isLocked(mTunnelArray[position].getUuid())));
+						if (!tunnelService.isLocked(mTunnelArray[position].getUuid())) tunnelService.lockTunnel(mTunnelArray[position].getUuid());
+						else tunnelService.unlockTunnel(mTunnelArray[position].getUuid());
+					} else Log.d("TUNNELFRAGMENT-TOGGLE","tunnelservice is null...");
 				}
 	    	});
 	    	((Button)holder.mCardView.findViewById(R.id.edit_button)).setOnClickListener(new Button.OnClickListener(){
@@ -323,19 +339,11 @@ public class TunnelFragment extends Fragment {
 	private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
         	Log.d("TUNNELFRAGMENT","setting up service");
-            mService = new Messenger(service);
             mBound = true;
-            if (mMessage != null){
-            	try {
-					mService.send(mMessage);
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				}
-            }
+            tunnelService = TunnelService.getInstance();
         }
 
         public void onServiceDisconnected(ComponentName className) {
-            mService = null;
             mBound = false;
         }
     };
@@ -344,13 +352,8 @@ public class TunnelFragment extends Fragment {
 	public void onStop(){
     	super.onStop();
     	if (mBound){
-    		Message msg = Message.obtain(null, TunnelService.MSG_DROP_ALL_TUNNELS, android.os.Process.myPid(), 0);
-    		try {
-				mService.send(msg);
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
     		TunnelFragment.this.getActivity().unbindService(mConnection);
+    		if (tunnelService != null && tunnelService.isManual()) TunnelFragment.this.getActivity().stopService(intent);
     		mBound=false;
     	}
     }

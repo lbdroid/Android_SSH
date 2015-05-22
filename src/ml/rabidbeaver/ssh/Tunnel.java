@@ -14,6 +14,8 @@ public class Tunnel {
 	private String name, sshhost, host, username, id_public, id_private_path, id_private, uuid;
 	private Process tunnelrunner = null;
 	private DataOutputStream outputStream;
+	public boolean stopped = true;
+	public boolean manual = false;
 	
 	public Tunnel (int id, String name, String sshhost, int sshport, int localport, String host,
 			int hostport, String username, boolean reverse, String id_public, String id_private_path,
@@ -34,7 +36,7 @@ public class Tunnel {
 	}
 	
 	protected boolean connect(int monport, Context ctx){
-		if (FileIO.readFromFile(ctx, id_private_path).length() < 10)
+		if (!FileIO.readFromFile2(ctx, id_private_path).equals(uuid))
 			FileIO.writeToFile(ctx, id_private_path, id_private);
 		String pidfile = ctx.getApplicationInfo().dataDir+"/files/"+uuid+".pid";
 		String cmd = "AUTOSSH_PIDFILE="+pidfile+" /system/bin/autossh -M "+Integer.toString(monport)+" -NL "+Integer.toString(localport)+":"+host+":"+Integer.toString(hostport)+" "+username+"@"+sshhost+" -p"+Integer.toString(sshport)+" -i "+ctx.getApplicationInfo().dataDir+"/files/"+id_private_path+" -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no\n";
@@ -46,6 +48,7 @@ public class Tunnel {
 		    outputStream.writeBytes(cmd);
 		    outputStream.flush();
 		    outputStream.close();
+		    stopped = false;
 		} catch (Exception e) {
 			Log.d("TUNNELFRAGMENT-EXCEPTION",e.getLocalizedMessage());
 		}
@@ -55,12 +58,13 @@ public class Tunnel {
 	
 	protected void disconnect(Context ctx){
 		Log.d("TUNNEL","destroy the tunnel");
-		
+
 		if (tunnelrunner != null && RootShell.isAccessGiven()){
 			Command command = new Command(0,"kill -SIGINT `cat "+ctx.getApplicationInfo().dataDir+"/files/"+uuid+".pid`");
 			try {
 				RootShell.getShell(true).add(command);
 				RootShell.closeShell(true);
+				stopped=true;
 			} catch (Exception e) {}
 		}
 	}

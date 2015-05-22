@@ -19,7 +19,7 @@
     <string name="drawer_close">Close</string>
     <string name="expand">Expand</string>
     <string name="collapse">Collapse</string>
-    <string name="start_hold">Start/Hold</string>
+    <string name="start_hold">Toggle Hold</string>
     <string name="tunnel_edit">Edit</string>
     <string name="sshd_state">SSHD State:</string>
     <string name="sshd_state_running">RUNNING</string>

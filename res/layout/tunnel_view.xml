@@ -19,7 +19,7 @@
 		red = stopped, yellow = held by 3rd party application (cannot depend on it remaining open),
 		green = running with manual hold. -->
         <ImageView
-            android:id="@+id/tunnel_status"
+            android:id="@+id/tunnel_status_red"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -28,13 +28,36 @@
             android:paddingRight="10dp"
             android:src="@drawable/red_circle"
             tools:ignore="ContentDescription" />
+        <ImageView
+            android:id="@+id/tunnel_status_yellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/yellow_circle"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+        <ImageView
+            android:id="@+id/tunnel_status_green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/green_circle"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
 		<!-- Name of the tunnel -->
         <TextView
             android:id="@+id/tun_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/tunnel_status" />
+            android:paddingLeft="40dp"
+            android:layout_alignParentLeft="true" />
 		<!-- Press button to expand view for more details and options. -->
         <ImageButton
             android:id="@+id/card_expand_button"
@@ -227,6 +250,11 @@
             	android:paddingTop="5dp"
 	            android:src="@drawable/ic_action_collapse" />
         </RelativeLayout>
+        <TextView
+            android:id="@+id/card_tunnel_uuid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
             
     </LinearLayout>
 	</LinearLayout>
