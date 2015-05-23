@@ -6,17 +6,16 @@
 	<ScrollView
     	android:layout_width="match_parent"
     	android:layout_height="match_parent" >
-		<TableLayout
-    		android:id="@+id/advancedSettingsLayout"
+		<RadioGroup
+    		android:id="@+id/tunnelrg"
     		android:layout_width="match_parent"
     		android:layout_height="wrap_content"
     		android:paddingBottom="@dimen/dialog_bottom_margin"
     		android:paddingLeft="@dimen/dialog_horizontal_margin"
     		android:paddingRight="@dimen/dialog_horizontal_margin"
     		android:paddingTop="@dimen/dialog_top_margin"
-    		android:stretchColumns="1"
     		tools:context=".TunnelChooser" >
-		</TableLayout>
+		</RadioGroup>
 	</ScrollView>
 
 	<LinearLayout

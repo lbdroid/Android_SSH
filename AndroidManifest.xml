@@ -32,7 +32,8 @@
             android:label="@string/tunnel_chooser"
             android:name=".TunnelChooser"
             android:theme="@style/SSHDialogTheme"
-            android:permission="ml.rabidbeaver.TUNNELCHOOSER" />
+            android:permission="ml.rabidbeaver.TUNNELCHOOSER"
+            android:exported="true" />
         <service
             android:name=".TunnelService"
 		    android:label="@string/tunnel_service" />
