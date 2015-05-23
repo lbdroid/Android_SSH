@@ -14,6 +14,10 @@
     <permission android:name="ml.rabidbeaver.TUNNELCHOOSER"
         android:label="Tunnel Chooser"
         android:protectionLevel="normal" />
+    
+    <permission android:name="ml.rabidbeaver.TUNNELBINDER"
+        android:label="Tunnel Binder"
+        android:protectionLevel="normal" />
 
     <application
         android:allowBackup="true"
@@ -36,7 +40,9 @@
             android:exported="true" />
         <service
             android:name=".TunnelService"
-		    android:label="@string/tunnel_service" />
+		    android:label="@string/tunnel_service"
+		    android:permission="ml.rabidbeaver.TUNNELBINDER"
+		    android:exported="true" />
         <receiver android:name=".OnBootReceiver">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />

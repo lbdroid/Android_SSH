@@ -6,10 +6,12 @@ import java.util.List;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.util.Log;
 import android.widget.Toast;
 
 public class TunnelService extends Service {
@@ -53,7 +55,8 @@ public class TunnelService extends Service {
 		int pid;
 		switch(msg.what){
 		case MSG_HOLDOPEN_TUNNEL:
-			uuid = (String) msg.obj;
+			//uuid = (String) ((Bundle)msg.obj).get;
+			uuid = ((Bundle)msg.obj).getString("uuid");
 			pid = msg.arg1;
 			
 			// If this process is already holding this tunnel, don't add again.
@@ -68,7 +71,7 @@ public class TunnelService extends Service {
 
 			break;
 		case MSG_DROP_TUNNEL:
-			uuid = (String) msg.obj;
+			uuid = ((Bundle)msg.obj).getString("uuid");
 			pid = msg.arg1;
 			int count = 0, pos = -1;
 			for (int i=0; i<processes.size(); i++){
@@ -193,6 +196,7 @@ public class TunnelService extends Service {
 
 	@Override
 	public IBinder onBind(Intent intent) {
+		Log.d("TUNNELSERVICE","BINDING");
 		isBound = true;
 		runningInstance = this;
 		return mMessenger.getBinder();
@@ -207,6 +211,7 @@ public class TunnelService extends Service {
 	
 	@Override
 	public boolean onUnbind(Intent intent){
+		Log.d("TUNNELSERVICE","unbinding");
 		isBound = false;
 		if (!isStarted) runningInstance = null;
 		return false;
