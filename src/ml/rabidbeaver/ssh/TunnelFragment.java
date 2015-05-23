@@ -91,20 +91,25 @@ public class TunnelFragment extends Fragment {
         new Thread(new Runnable(){
 			@Override
 			public void run() {
-				while (true){
+				boolean finish = false;
+				while (!finish){
 				if (tunnelService != null)
 					for (int i=0; i<mRecyclerView.getChildCount(); i++){
 						final CardView c = (CardView) mRecyclerView.getChildAt(i);
 						String uuid = ((TextView)c.findViewById(R.id.card_tunnel_uuid)).getText().toString();
 						final int color = tunnelService.getColor(uuid);
-						getActivity().runOnUiThread(new Runnable(){
-					        public void run(){
-					        	c.findViewById(R.id.tunnel_status_red).setVisibility(color==TunnelService.COLOR_RED?View.VISIBLE:View.GONE);
-								c.findViewById(R.id.tunnel_status_yellow).setVisibility(color==TunnelService.COLOR_YELLOW?View.VISIBLE:View.GONE);
-								c.findViewById(R.id.tunnel_status_green).setVisibility(color==TunnelService.COLOR_GREEN?View.VISIBLE:View.GONE);
-							}
-					    });
-						
+						if (getActivity() != null)
+							getActivity().runOnUiThread(new Runnable(){
+								public void run(){
+									c.findViewById(R.id.tunnel_status_red).setVisibility(color==TunnelService.COLOR_RED?View.VISIBLE:View.GONE);
+									c.findViewById(R.id.tunnel_status_yellow).setVisibility(color==TunnelService.COLOR_YELLOW?View.VISIBLE:View.GONE);
+									c.findViewById(R.id.tunnel_status_green).setVisibility(color==TunnelService.COLOR_GREEN?View.VISIBLE:View.GONE);
+								}
+							});
+						else {
+							finish = true;
+							break;
+						}
 					}
 				try {
 					Thread.sleep(5000);
