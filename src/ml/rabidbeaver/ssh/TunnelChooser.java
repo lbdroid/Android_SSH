@@ -35,6 +35,7 @@ public class TunnelChooser extends Activity {
 				int checked = rg.getCheckedRadioButtonId();
                 intent.putExtra("name",tunnels[checked].getName());
                 intent.putExtra("uuid",tunnels[checked].getUuid());
+                intent.putExtra("port", tunnels[checked].getLocalPort());
                 setResult(RESULT_OK,intent);  
                 finish();
 			}
