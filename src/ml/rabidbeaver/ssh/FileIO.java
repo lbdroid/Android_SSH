@@ -261,7 +261,7 @@ public class FileIO {
 						"busybox chmod 755 /system/bin/gzip /system/bin/openssl"+ // set binary executable permissions
 								" /system/bin/scp /system/bin/sftp /system/bin/sftp-server"+
 								" /system/bin/ssh /system/bin/ssh-keygen /system/bin/sshd"+
-								" /system/bin/start-ssh",
+								" /system/bin/start-ssh /system/bin/autossh",
 						modlibs, // set shared object read permissions
 						"busybox mkdir -p /data/ssh/empty", // create privilege separation directory
 						"busybox mkdir /data/.ssh", // create root .ssh directory
