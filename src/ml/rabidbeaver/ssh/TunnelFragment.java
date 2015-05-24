@@ -23,6 +23,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,6 +134,7 @@ public class TunnelFragment extends Fragment {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 		final String uuid = t!=null?t.getUuid():null;
 		final String pri_key_path = t!=null?t.getIdPriPath():null;
+		((EditText) tunnel_form.findViewById(R.id.tunnel_prikey)).setMovementMethod(new ScrollingMovementMethod());
 		builder.setTitle(t!=null?"Edit Tunnel":"New Tunnel");
 		builder.setPositiveButton(t!=null?"Save Changes":"Add Tunnel", new DialogInterface.OnClickListener(){
 			@Override

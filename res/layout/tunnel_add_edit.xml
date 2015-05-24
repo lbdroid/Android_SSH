@@ -24,7 +24,8 @@
    		        android:id="@+id/tunnel_name"
    		        android:layout_width="wrap_content"
    		        android:layout_height="wrap_content"
-   		        android:inputType="text"/>
+   		        android:inputType="textNoSuggestions"
+   		        android:privateImeOptions="nm"/>
    		</TableRow>
    		<TableRow
    		    android:layout_width="match_parent"
@@ -38,7 +39,8 @@
    		        android:id="@+id/tunnel_server"
    		        android:layout_width="wrap_content"
    		        android:layout_height="wrap_content"
-   		        android:inputType="text"/>
+   		        android:inputType="textNoSuggestions"
+   		        android:privateImeOptions="nm"/>
    		</TableRow>
    		<TableRow
    		    android:layout_width="match_parent"
@@ -52,7 +54,8 @@
    		        android:id="@+id/tunnel_server_port"
    		        android:layout_width="wrap_content"
    		        android:layout_height="wrap_content"
-   		        android:inputType="number"/>
+   		        android:inputType="number"
+   		        android:privateImeOptions="nm"/>
    		</TableRow>
    		<TableRow
    		    android:layout_width="match_parent"
@@ -66,7 +69,8 @@
    		        android:id="@+id/tunnel_user"
    		        android:layout_width="wrap_content"
    		        android:layout_height="wrap_content"
-   		        android:inputType="text"/>
+   		        android:inputType="textNoSuggestions"
+   		        android:privateImeOptions="nm"/>
    		</TableRow>
    		<TableRow
    		    android:layout_width="match_parent"
@@ -80,7 +84,8 @@
    		        android:id="@+id/tunnel_pubkey"
    		        android:layout_width="wrap_content"
    		        android:layout_height="wrap_content"
-   		        android:inputType="text"/>
+   		        android:inputType="textNoSuggestions"
+   		        android:privateImeOptions="nm"/>
    		</TableRow>
    		<TableRow
    		    android:layout_width="match_parent"
@@ -94,11 +99,12 @@
    		        android:id="@+id/tunnel_prikey"
    		        android:layout_width="wrap_content"
    		        android:layout_height="wrap_content"
-   		        android:inputType="textMultiLine"
-   		        android:minLines="6"
+   		        android:inputType="textNoSuggestions|textMultiLine"
+   		        android:minLines="4"
     			android:gravity="top|left"
-    			android:maxLines="10"
-    			android:scrollbars="vertical" />
+    			android:maxLines="8"
+    			android:scrollbars="vertical"
+    			android:privateImeOptions="nm" />
    		</TableRow>
    		<TableRow
    		    android:layout_width="match_parent"
@@ -133,7 +139,8 @@
    		        android:id="@+id/tunnel_host"
    		        android:layout_width="wrap_content"
    		        android:layout_height="wrap_content"
-   		        android:inputType="text"/>
+   		        android:inputType="textNoSuggestions"
+   		        android:privateImeOptions="nm"/>
    		</TableRow>
    		<TableRow
    		    android:layout_width="match_parent"
@@ -147,7 +154,8 @@
    		        android:id="@+id/tunnel_host_port"
    		        android:layout_width="wrap_content"
    		        android:layout_height="wrap_content"
-   		        android:inputType="number"/>
+   		        android:inputType="number"
+   		        android:privateImeOptions="nm"/>
    		</TableRow>
    		<TableRow
    		    android:layout_width="match_parent"
@@ -161,7 +169,8 @@
    		        android:id="@+id/tunnel_local_port"
    		        android:layout_width="wrap_content"
    		        android:layout_height="wrap_content"
-   		        android:inputType="number"/>
+   		        android:inputType="number"
+   		        android:privateImeOptions="nm"/>
    		</TableRow>
    		<TableRow
    		    android:id="@+id/tunnel_reverse_row"
