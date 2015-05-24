@@ -18,13 +18,16 @@ public class TunnelChooser extends Activity {
 		final RadioGroup rg = (RadioGroup) findViewById(R.id.tunnelrg);
 		TunnelManager tm = new TunnelManager(this);
 		final Tunnel[] tunnels = tm.getTunnels();
-		
+		RadioButton rdbtn = new RadioButton(this);
+		rdbtn.setId(0);
+		rdbtn.setText("None");
+		rg.addView(rdbtn);
+		rdbtn.setChecked(true);
         for (int i = 0; i < tunnels.length; i++) {
-            RadioButton rdbtn = new RadioButton(this);
-            rdbtn.setId(i);
+            rdbtn = new RadioButton(this);
+            rdbtn.setId(i+1);
             rdbtn.setText(tunnels[i].getName());
             rg.addView(rdbtn);
-            if (i==0) rdbtn.setChecked(true);
         }
 
         Button b = (Button) findViewById(R.id.okbutton);
@@ -33,9 +36,15 @@ public class TunnelChooser extends Activity {
 			public void onClick(View v) {
 				Intent intent=new Intent();
 				int checked = rg.getCheckedRadioButtonId();
-                intent.putExtra("name",tunnels[checked].getName());
-                intent.putExtra("uuid",tunnels[checked].getUuid());
-                intent.putExtra("port", tunnels[checked].getLocalPort());
+				if (checked == 0){
+					intent.putExtra("name","");
+					intent.putExtra("uuid","");
+					intent.putExtra("port",-1);
+				} else {
+					intent.putExtra("name",tunnels[checked-1].getName());
+					intent.putExtra("uuid",tunnels[checked-1].getUuid());
+					intent.putExtra("port", tunnels[checked-1].getLocalPort());
+				}
                 setResult(RESULT_OK,intent);  
                 finish();
 			}
