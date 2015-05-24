@@ -56,7 +56,12 @@ public class TunnelFragment extends Fragment {
 		View v = inflater.inflate(R.layout.tunnels,container,false);
 		tunnelManager = new TunnelManager(v.getContext());
 		
-		intent = new Intent(v.getContext(), TunnelService.class);
+		//intent = new Intent(v.getContext(), TunnelService.class);
+		
+		
+		intent = new Intent();
+		intent.setComponent(new ComponentName("ml.rabidbeaver.ssh", "ml.rabidbeaver.ssh.TunnelService"));
+		
 		v.getContext().startService(intent);
 		v.getContext().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 		
@@ -358,7 +363,7 @@ public class TunnelFragment extends Fragment {
     	super.onStop();
     	if (mBound){
     		TunnelFragment.this.getActivity().unbindService(mConnection);
-    		if (tunnelService != null && tunnelService.isManual()) TunnelFragment.this.getActivity().stopService(intent);
+    		if (tunnelService != null && !tunnelService.isManual()) TunnelFragment.this.getActivity().stopService(intent);
     		mBound=false;
     	}
     }

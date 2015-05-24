@@ -4,6 +4,9 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stericson.RootShell.RootShell;
+import com.stericson.RootShell.execution.Command;
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
@@ -55,7 +58,6 @@ public class TunnelService extends Service {
 		int pid;
 		switch(msg.what){
 		case MSG_HOLDOPEN_TUNNEL:
-			//uuid = (String) ((Bundle)msg.obj).get;
 			uuid = ((Bundle)msg.obj).getString("uuid");
 			pid = msg.arg1;
 			
@@ -81,7 +83,7 @@ public class TunnelService extends Service {
 				}
 			}
 			if (pos >= 0) processes.remove(pos);
-			if (count == 1) stopTunnel(uuid);
+			if (count == 1 && !isLocked(uuid)) stopTunnel(uuid);
 			break;
 		case MSG_DROP_ALL_TUNNELS:
 			pid = msg.arg1;
@@ -90,7 +92,7 @@ public class TunnelService extends Service {
 					processes.remove(i);
 					i--;
 				}
-			cleanupTunnels();
+			cleanupTunnels(false);
 			break;
 		}
 	}
@@ -118,7 +120,7 @@ public class TunnelService extends Service {
 		}
 	}
 	
-	private void cleanupTunnels(){
+	private void cleanupTunnels(boolean killall){
 		for (int i=0; i<tunnels.size(); i++){
 			boolean found = false;
 			for (int j=0; j<processes.size(); j++)
@@ -126,7 +128,7 @@ public class TunnelService extends Service {
 					found = true;
 					break;
 				}
-			if (!found){
+			if (!found && (killall || !isLocked(tunnels.get(i).getUuid()))){
 				stopTunnel(tunnels.get(i).getUuid());
 				i--;
 			}
@@ -151,6 +153,7 @@ public class TunnelService extends Service {
 	}
 	
 	public void lockTunnel(String Uuid){
+		Log.d("TUNNELSERVICE","LOCKING TUNNEL:"+Uuid);
 		lockedTunnels.add(Uuid);
 		startTunnel(Uuid);
 		for (int i=0; i<tunnels.size(); i++)
@@ -159,6 +162,7 @@ public class TunnelService extends Service {
 	}
 	
 	public void unlockTunnel(String Uuid){
+		Log.d("TUNNELSERVICE","UNLOCKING TUNNEL:"+Uuid);
 		for (int i=0; i<lockedTunnels.size(); i++)
 			if (lockedTunnels.get(i).equals(Uuid)){
 				lockedTunnels.remove(i);
@@ -177,6 +181,8 @@ public class TunnelService extends Service {
 				isLocked=true;
 				break;
 			}
+		if (isLocked) Log.d("TUNNELSERVICE","LOCKED:"+Uuid);
+		else Log.d("TUNNELSERVICE","NOTLOCKED:"+Uuid);
 		return isLocked;
 	}
 	
@@ -201,12 +207,32 @@ public class TunnelService extends Service {
 		runningInstance = this;
 		return mMessenger.getBinder();
 	}
+	
+	public void killAllTunnels(){
+		if (RootShell.isAccessGiven()){
+			Command command = new Command(0,"for FILE in "+this.getApplicationInfo().dataDir+"/files/*.pid; do PID=`cat \"$FILE\"`; kill -SIGINT $PID; done");
+			try {
+				RootShell.getShell(true).add(command);
+				RootShell.closeShell(true);
+			} catch (Exception e) {}
+		}
+	}
+	
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		// there shouldn't be any tunnels, but if there are it means something
+		// bad happened, kill them all.
+		killAllTunnels();
+	}
 
 	@Override
     public void onDestroy() {
 		super.onDestroy();
-		isStarted = false;
-		if (!isBound) runningInstance = null;
+		Log.d("TUNNELSERVICE","Running onDestroy()");
+		cleanupTunnels(true);
+		// for good measure, kill all the tunnels
+		killAllTunnels();
     }
 	
 	@Override
