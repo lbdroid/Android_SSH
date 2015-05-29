@@ -23,10 +23,9 @@
  *
  */
 
-#include "config.h"
-
 #include <sys/types.h>
 #include <sys/time.h>
+#include "config.h"
 
 #ifndef HAVE_SOCKLEN_T
 typedef int32_t socklen_t;
