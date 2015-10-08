@@ -14,7 +14,7 @@ all:
 	mkdir $(OLD_PATH)/../assets/etc
 	cp $(OLD_PATH)/openssh/sshd_config.android $(OLD_PATH)/../assets/etc/sshd_config
 	cp $(OLD_PATH)/openssh/start-ssh $(OLD_PATH)/../assets/bin/
-	cp $(OLD_PATH)/../libs/armeabi/gzip $(OLD_PATH)/../assets/bin/
+	#cp $(OLD_PATH)/../libs/armeabi/gzip $(OLD_PATH)/../assets/bin/
 	cp $(OLD_PATH)/../libs/armeabi/scp $(OLD_PATH)/../assets/bin/
 	cp $(OLD_PATH)/../libs/armeabi/sftp $(OLD_PATH)/../assets/bin/
 	cp $(OLD_PATH)/../libs/armeabi/sftp-server $(OLD_PATH)/../assets/bin/
