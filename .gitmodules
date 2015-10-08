@@ -1,6 +1,6 @@
 [submodule "jni/openssh"]
     path = jni/openssh
-    url = https://github.com/lbdroid/openssh.git
+    url = https://github.com/lbdroid/android_external_openssh.git
 
 [submodule "jni/openssl"]
     path = jni/openssl
