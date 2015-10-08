@@ -1,10 +1,13 @@
 package ml.rabidbeaver.ssh;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import com.stericson.RootShell.RootShell;
 import com.stericson.RootShell.execution.Command;
+import com.stericson.RootShell.execution.Shell;
+import com.stericson.RootShell.execution.Shell.ShellContext;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -33,6 +36,8 @@ public class Main extends AppCompatActivity {
 	private TunnelFragment tunnelsFragment;
 	private RelativeLayout optionsList;
 	private boolean pollstate = true;
+	private Shell rshell = null;
+	private Command cmmd;
 	
 	private static final int ABOUT = 0;
 	private static final int SETTINGS = 1;
@@ -227,10 +232,34 @@ public class Main extends AppCompatActivity {
 	public void onResume() {
 	    super.onResume();
 	    pollstate=true;
+	    
+	    if (RootShell.isAccessGiven()){
+	    	cmmd = new Command(0,"if ( busybox ps | grep \"/system/bin/sshd\" | grep -v \"grep\" >/dev/null ); then echo \"running\"; else echo \"stopped\"; fi"){
+	    		@Override
+				public void commandOutput(int id, String line){
+	    			Log.d("RabidBeaverSSH-Main",line);
+	    			final TextView runview = (TextView) findViewById(R.id.sshd_state_running);
+					final TextView stopview = (TextView) findViewById(R.id.sshd_state_stopped);
+	    			if (line.contains("running")){
+	    				runOnUiThread(new Runnable(){
+							public void run() {
+								runview.setVisibility(View.VISIBLE);
+								stopview.setVisibility(View.GONE);
+							}
+						});
+	    			} else {
+	    				runOnUiThread(new Runnable(){
+							public void run() {
+								runview.setVisibility(View.GONE);
+								stopview.setVisibility(View.VISIBLE);
+							}
+						});
+	    			}
+				}
+	    	};
 		new Thread(new Runnable() {
 			public void run(){
-				final TextView runview = (TextView) findViewById(R.id.sshd_state_running);
-				final TextView stopview = (TextView) findViewById(R.id.sshd_state_stopped);
+				
 				final EditText ipfield = (EditText)findViewById(R.id.ip_field);
 				while (pollstate){
 				runOnUiThread(new Runnable(){
@@ -238,21 +267,11 @@ public class Main extends AppCompatActivity {
 						ipfield.setText(shellgetips());
 					}
 				});
-				if (shellsshdrunning()){
-					runOnUiThread(new Runnable(){
-						public void run() {
-							runview.setVisibility(View.VISIBLE);
-							stopview.setVisibility(View.GONE);
-						}
-					});
-				} else {
-					runOnUiThread(new Runnable(){
-						public void run() {
-							runview.setVisibility(View.GONE);
-							stopview.setVisibility(View.VISIBLE);
-						}
-					});
-				}
+				try {
+					RootShell.getShell(true).add(cmmd);
+					RootShell.closeShell(true);
+				} catch (Exception e) {}
+				//shellsshdrunning();
 				
 				try {
 					Thread.sleep(5000); // sleep for 5 seconds
@@ -260,6 +279,7 @@ public class Main extends AppCompatActivity {
 				}
 			}
 		}).start();
+	    }
 	}
 	
 	public String shellgetips() {
@@ -288,6 +308,8 @@ public class Main extends AppCompatActivity {
 	public boolean shellsshdrunning() {
 		Process p;
 		try {
+			//TODO this is getting selinux blocked, so will have to be as root.
+			// probably should stop polling, and replace with a "check status" button.
 			p = Runtime.getRuntime().exec("busybox ps | grep sshd 2>/dev/null");
 			p.waitFor();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));

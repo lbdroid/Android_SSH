@@ -246,10 +246,10 @@ public class FileIO {
 				String copylibs, modlibs;
 				if (danger){
 					copylibs = "busybox cp -f "+libpath+"/* /system/lib/";
-					modlibs = "busybox chmod 644 /system/lib/libssh.so /system/lib/libcrypto.so /system/lib/libssl.so /system/lib/libz.so";
+					modlibs = "busybox chmod 644 /system/lib/libssh.so /system/lib/libcrypto.rb.so /system/lib/libssl.rb.so /system/lib/libz.so";
 				} else {
 					copylibs = "busybox cp -f "+libpath+"/libssh.so /system/lib/";
-					modlibs = "busybox chmod 644 /system/lib/libssh.so";
+					modlibs = "busybox chmod 644 /system/lib/libssh.so /system/lib/libcrypto.rb.so /system/lib/libssl.rb.so";
 				}
 				
 				Command command = new Command(0,
