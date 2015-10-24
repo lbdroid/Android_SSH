@@ -20,7 +20,7 @@ public class OnBootReceiver extends BroadcastReceiver {
 					Command command = new Command(0,
 							"killall -9 sshd",
 							"sleep 1",
-							"/system/bin/sshd"
+							"/data/bin/sshd"
 					){
 						@Override
 						public void commandOutput(int id, String line){

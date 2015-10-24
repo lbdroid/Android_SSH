@@ -1,13 +1,11 @@
 package ml.rabidbeaver.ssh;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import com.stericson.RootShell.RootShell;
 import com.stericson.RootShell.execution.Command;
 import com.stericson.RootShell.execution.Shell;
-import com.stericson.RootShell.execution.Shell.ShellContext;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -37,6 +35,7 @@ public class Main extends AppCompatActivity {
 	private RelativeLayout optionsList;
 	private boolean pollstate = true;
 	private Shell rshell = null;
+	private String bbprefix = "";
 	private Command cmmd;
 	
 	private static final int ABOUT = 0;
@@ -104,26 +103,24 @@ public class Main extends AppCompatActivity {
 		((Button)findViewById(R.id.startsshd)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
-				if (RootShell.isAccessGiven()){
+				if (RootShell.isAccessGiven() && (FileIO.dbbusybox() || RootShell.isBusyboxAvailable())){
+					if (FileIO.dbbusybox()) bbprefix="/data/bin/";
 					// do root stuff here
-					if (RootShell.isBusyboxAvailable()){
-						Command command = new Command(0,
-								"killall -9 sshd",
-								"sleep 1",
-								"/system/bin/sshd"
-						){
-							@Override
-							public void commandOutput(int id, String line){
-								Log.d("MAIN STARTSSHD",line);
-							}
-						};
-						try {
-							RootShell.getShell(true).add(command);
-							RootShell.closeShell(true);
-						} catch (Exception e) {}
-					} else {
-						Toast.makeText(getApplicationContext(), "Unable to proceed, busybox not installed.", Toast.LENGTH_LONG).show();
-					}
+					Command command = new Command(0,
+							bbprefix+"busybox killall -9 sshd",
+							"sleep 1",
+							"unset LD_LIBRARY_PATH",
+							"/data/bin/sshd"
+					){
+						@Override
+						public void commandOutput(int id, String line){
+							Log.d("MAIN STARTSSHD",line);
+						}
+					};
+					try {
+						RootShell.getShell(true).add(command);
+						RootShell.closeShell(true);
+					} catch (Exception e) {}
 				} else {
 					Toast.makeText(getApplicationContext(), "Unable to proceed, root not available.", Toast.LENGTH_LONG).show();
 				}
@@ -133,24 +130,21 @@ public class Main extends AppCompatActivity {
 		((Button)findViewById(R.id.stopsshd)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
-				if (RootShell.isAccessGiven()){
+				if (RootShell.isAccessGiven() && (FileIO.dbbusybox() || RootShell.isBusyboxAvailable())){
+					if (FileIO.dbbusybox()) bbprefix="/data/bin/";
 					// do root stuff here
-					if (RootShell.isBusyboxAvailable()){
-						Command command = new Command(0,
-								"killall -9 sshd"
-						){
-							@Override
-							public void commandOutput(int id, String line){
-								Log.d("MAIN STOPSSHD",line);
-							}
-						};
-						try {
-							RootShell.getShell(true).add(command);
-							RootShell.closeShell(true);
-						} catch (Exception e) {}
-					} else {
-						Toast.makeText(getApplicationContext(), "Unable to proceed, busybox not installed.", Toast.LENGTH_LONG).show();
-					}
+					Command command = new Command(0,
+							bbprefix+"busybox killall -9 sshd"
+					){
+						@Override
+						public void commandOutput(int id, String line){
+							Log.d("MAIN STOPSSHD",line);
+						}
+					};
+					try {
+						RootShell.getShell(true).add(command);
+						RootShell.closeShell(true);
+					} catch (Exception e) {}
 				} else {
 					Toast.makeText(getApplicationContext(), "Unable to proceed, root not available.", Toast.LENGTH_LONG).show();
 				}
@@ -160,26 +154,23 @@ public class Main extends AppCompatActivity {
 		((Button)findViewById(R.id.restartsshd)).setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v){
-				if (RootShell.isAccessGiven()){
+				if (RootShell.isAccessGiven() && (FileIO.dbbusybox() || RootShell.isBusyboxAvailable())){
+					if (FileIO.dbbusybox()) bbprefix="/data/bin/";
 					// do root stuff here
-					if (RootShell.isBusyboxAvailable()){
-						Command command = new Command(0,
-								"killall -9 sshd",
-								"sleep 2",
-								"/system/bin/sshd"
-						){
-							@Override
-							public void commandOutput(int id, String line){
-								Log.d("MAIN RESTARTSSHD",line);
-							}
-						};
-						try {
-							RootShell.getShell(true).add(command);
-							RootShell.closeShell(true);
-						} catch (Exception e) {}
-					} else {
-						Toast.makeText(getApplicationContext(), "Unable to proceed, busybox not installed.", Toast.LENGTH_LONG).show();
-					}
+					Command command = new Command(0,
+							bbprefix+"busybox killall -9 sshd",
+							"sleep 2",
+							"/data/bin/sshd"
+					){
+						@Override
+						public void commandOutput(int id, String line){
+							Log.d("MAIN RESTARTSSHD",line);
+						}
+					};
+					try {
+						RootShell.getShell(true).add(command);
+						RootShell.closeShell(true);
+					} catch (Exception e) {}
 				} else {
 					Toast.makeText(getApplicationContext(), "Unable to proceed, root not available.", Toast.LENGTH_LONG).show();
 				}
@@ -196,12 +187,13 @@ public class Main extends AppCompatActivity {
 				String filespath=getApplicationInfo().dataDir+"/files";
 				if (RootShell.isAccessGiven()){
 					// do root stuff here
-					if (RootShell.isBusyboxAvailable()){
+					if (FileIO.dbbusybox() || RootShell.isBusyboxAvailable()){
+						if (FileIO.dbbusybox()) bbprefix = "/data/bin/";
 						Command command = new Command(0,
-								"busybox rm -f /data/.ssh/authorized_keys",
-								"busybox cp "+filespath+"/authorized_keys /data/.ssh/",
-								"busybox chown 0.0 /data/.ssh/authorized_keys",
-								"busybox chmod 600  /data/.ssh/authorized_keys"
+								bbprefix+"busybox rm -f /data/.ssh/authorized_keys",
+								bbprefix+"busybox cp "+filespath+"/authorized_keys /data/.ssh/",
+								bbprefix+"busybox chown 0.0 /data/.ssh/authorized_keys",
+								bbprefix+"busybox chmod 600  /data/.ssh/authorized_keys"
 						){
 							@Override
 							public void commandOutput(int id, String line){
@@ -234,7 +226,8 @@ public class Main extends AppCompatActivity {
 	    pollstate=true;
 	    
 	    if (RootShell.isAccessGiven()){
-	    	cmmd = new Command(0,"if ( busybox ps | grep \"/system/bin/sshd\" | grep -v \"grep\" >/dev/null ); then echo \"running\"; else echo \"stopped\"; fi"){
+	    	if (FileIO.dbbusybox()) bbprefix = "/data/bin/";
+	    	cmmd = new Command(0,"if ( "+bbprefix+"busybox ps | grep \"/data/bin/sshd\" | grep -v \"grep\" >/dev/null ); then echo \"running\"; else echo \"stopped\"; fi"){
 	    		@Override
 				public void commandOutput(int id, String line){
 	    			Log.d("RabidBeaverSSH-Main",line);
@@ -286,7 +279,8 @@ public class Main extends AppCompatActivity {
 		StringBuffer output = new StringBuffer();
 		Process p;
 		try {
-			p = Runtime.getRuntime().exec("busybox ifconfig");
+			if (FileIO.dbbusybox()) bbprefix = "/data/bin/";
+			p = Runtime.getRuntime().exec(bbprefix+"busybox ifconfig");
 			p.waitFor();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			String line = "";
@@ -310,12 +304,13 @@ public class Main extends AppCompatActivity {
 		try {
 			//TODO this is getting selinux blocked, so will have to be as root.
 			// probably should stop polling, and replace with a "check status" button.
-			p = Runtime.getRuntime().exec("busybox ps | grep sshd 2>/dev/null");
+			if (FileIO.dbbusybox()) bbprefix="/data/bin/";
+			p = Runtime.getRuntime().exec(bbprefix+"busybox ps | grep sshd 2>/dev/null");
 			p.waitFor();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			String line = "";
 			while ((line = reader.readLine())!= null) {
-				if (line.contains("/system/bin/sshd")) return true;
+				if (line.contains("/data/bin/sshd")) return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

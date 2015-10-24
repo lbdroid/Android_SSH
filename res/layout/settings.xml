@@ -22,11 +22,6 @@
         	    android:layout_width="wrap_content"
             	android:layout_height="wrap_content"
             	android:text="@string/btn_safe" />
-	        <Button
-    	        android:id="@+id/install_dangerous"
-        	    android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"
-	            android:text="@string/btn_danger" />
     	    <TextView
         	    android:layout_width="wrap_content"
             	android:layout_height="wrap_content"

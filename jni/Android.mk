@@ -15,11 +15,11 @@ all:
 	cp $(OLD_PATH)/openssh/sshd_config.android $(OLD_PATH)/../assets/etc/sshd_config
 	cp $(OLD_PATH)/openssh/start-ssh $(OLD_PATH)/../assets/bin/
 	#cp $(OLD_PATH)/../libs/armeabi/gzip $(OLD_PATH)/../assets/bin/
-	cp $(OLD_PATH)/../libs/armeabi/scp $(OLD_PATH)/../assets/bin/
-	cp $(OLD_PATH)/../libs/armeabi/sftp $(OLD_PATH)/../assets/bin/
-	cp $(OLD_PATH)/../libs/armeabi/sftp-server $(OLD_PATH)/../assets/bin/
-	cp $(OLD_PATH)/../libs/armeabi/_ssh $(OLD_PATH)/../assets/bin/ssh
-	cp $(OLD_PATH)/../libs/armeabi/sshd $(OLD_PATH)/../assets/bin/
-	cp $(OLD_PATH)/../libs/armeabi/ssh-keygen $(OLD_PATH)/../assets/bin/
-	cp $(OLD_PATH)/../libs/armeabi/openssl $(OLD_PATH)/../assets/bin/
-	cp $(OLD_PATH)/../libs/armeabi/autossh $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi-v7a/scp $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi-v7a/sftp $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi-v7a/sftp-server $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi-v7a/_ssh $(OLD_PATH)/../assets/bin/ssh
+	cp $(OLD_PATH)/../libs/armeabi-v7a/sshd $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi-v7a/ssh-keygen $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi-v7a/openssl $(OLD_PATH)/../assets/bin/
+	cp $(OLD_PATH)/../libs/armeabi-v7a/autossh $(OLD_PATH)/../assets/bin/

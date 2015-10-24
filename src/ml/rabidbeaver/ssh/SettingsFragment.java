@@ -1,7 +1,5 @@
 package ml.rabidbeaver.ssh;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,26 +21,6 @@ public class SettingsFragment extends Fragment {
 			}
 		});
 		
-		((Button)v.findViewById(R.id.install_dangerous)).setOnClickListener(new Button.OnClickListener(){//.setEnabled(false);
-			@Override
-			public void onClick(final View v) {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
-				alertDialogBuilder.setTitle(R.string.danger_heading);
-				alertDialogBuilder.setMessage(R.string.danger_warning);
-
-				alertDialogBuilder.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,int id) {
-						FileIO.install(v.getContext(), true);
-					}
-				});
-
-				alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,int id) { dialog.cancel(); }
-				});
-				alertDialogBuilder.create().show();
-			}
-		});
-		
 	    String s = FileIO.readFromFile(v.getContext(),"onboot.conf");
 	    cbox = (CheckBox)v.findViewById(R.id.launch);
 	    if (s.contains("true")) cbox.setChecked(true);
@@ -60,8 +38,8 @@ public class SettingsFragment extends Fragment {
 			public void onClick(final View v){
 				new Thread(new Runnable() {
 					public void run(){
-						if (FileIO.assetsInstalled(v.getContext(),"bin") && FileIO.assetsInstalled(v.getContext(),"etc") && FileIO.libsInstalled(v.getContext())){
-							if (FileIO.assetsCurrent(v.getContext(),"bin") && FileIO.libsCurrent(v.getContext())){
+						if (FileIO.assetsInstalled(v.getContext(),"bin") && FileIO.assetsInstalled(v.getContext(),"etc")){
+							if (FileIO.assetsCurrent(v.getContext(),"bin")){
 								// Assets installed and current
 								getActivity().runOnUiThread(new Runnable(){
 									public void run() {

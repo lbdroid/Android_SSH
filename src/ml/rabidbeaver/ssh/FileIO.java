@@ -169,7 +169,7 @@ public class FileIO {
 	    		if (!fileExists) installed=false;
 	    	}
 	    	else{
-	    		outFile = new File("/system/"+subpath+"/"+filename);
+	    		outFile = new File("/data/"+subpath+"/"+filename);
 	    		if (!outFile.exists() && !outFile.getAbsolutePath().contains("sshd_config")){
 	    			installed=false;
 	    			break;
@@ -216,21 +216,10 @@ public class FileIO {
 		return match;
 	}
 	
-	public static boolean libsInstalled(Context ctx){
-		File libsshFile = new File(ctx.getApplicationInfo().dataDir+"/lib/libssh.so");
-		return libsshFile.exists();
-	}
-	
-	public static boolean libsCurrent(Context ctx){
-		boolean match=false;
-		try {
-			InputStream sshIS1 = new FileInputStream(new File(ctx.getApplicationInfo().dataDir+"/lib/libssh.so"));
-			InputStream sshIS2 = new FileInputStream(new File("/system/lib/libssh.so"));
-			if (streamsMatch(sshIS1, sshIS2)) match=true;
-			sshIS1.close();
-			sshIS2.close();
-		} catch (Exception e) {}
-		return match;
+	public static boolean dbbusybox(){
+		File file = new File("/data/bin/busybox");
+		if (file.exists()) return true;
+		else return false;
 	}
 	
 	public static void install(final Context ctx, boolean danger){
@@ -239,36 +228,29 @@ public class FileIO {
 		
 		if (RootShell.isAccessGiven()){
 			// do root stuff here
-			if (RootShell.isBusyboxAvailable()){
+			if (dbbusybox() || RootShell.isBusyboxAvailable()){
+				String bbprefix = "";
+				Log.d("FILEIO","FOUND BUSBOX");
+				if (dbbusybox()) bbprefix="/data/bin/";
 				String binpath=ctx.getApplicationInfo().dataDir+"/bin";
-				String libpath=ctx.getApplicationInfo().dataDir+"/lib";
 				String etcpath=ctx.getApplicationInfo().dataDir+"/etc";
-				String copylibs, modlibs;
-				if (danger){
-					copylibs = "busybox cp -f "+libpath+"/* /system/lib/";
-					modlibs = "busybox chmod 644 /system/lib/libssh.so /system/lib/libcrypto.rb.so /system/lib/libssl.rb.so /system/lib/libz.so";
-				} else {
-					copylibs = "busybox cp -f "+libpath+"/libssh.so /system/lib/";
-					modlibs = "busybox chmod 644 /system/lib/libssh.so /system/lib/libcrypto.rb.so /system/lib/libssl.rb.so";
-				}
 				
 				Command command = new Command(0,
-						"busybox chmod 755 "+binpath+"/*",
-						"busybox mount -o remount,rw /system", // remount system rw
-						"busybox rm -rf /data/ssh /data/.ssh", // remove old crap
-						"busybox cp -f "+binpath+"/* /system/bin/", // copy binaries to system
-						copylibs, // copy shared objects to system
-						"busybox chmod 755 /system/bin/gzip /system/bin/openssl"+ // set binary executable permissions
-								" /system/bin/scp /system/bin/sftp /system/bin/sftp-server"+
-								" /system/bin/ssh /system/bin/ssh-keygen /system/bin/sshd"+
-								" /system/bin/start-ssh /system/bin/autossh",
-						modlibs, // set shared object read permissions
-						"busybox mkdir -p /data/ssh/empty", // create privilege separation directory
-						"busybox mkdir /data/.ssh", // create root .ssh directory
-						"if [ ! -f /data/ssh/sshd_config ]; then busybox cp "+etcpath+"/sshd_config /data/ssh/; fi", // copy config file to ssh directory
-						"if [ ! -f /data/ssh/ssh_host_rsa_key ]; then ssh-keygen -f /data/ssh/ssh_host_rsa_key -N '' -t rsa; fi", // create host rsa key
-						"if [ ! -f /data/ssh/ssh_host_dsa_key ]; then ssh-keygen -f /data/ssh/ssh_host_dsa_key -N '' -t dsa; fi", // create host dsa key
-						"if [ ! -f /data/.ssh/id_rsa ]; then ssh-keygen -f /data/.ssh/id_rsa -N '' -t rsa; fi" // create root client rsa key
+						"unset LD_LIBRARY_PATH",
+						bbprefix+"busybox chmod 755 "+binpath+"/*",
+						bbprefix+"busybox mkdir /data/bin",
+						bbprefix+"busybox rm -rf /data/ssh /data/.ssh", // remove old crap
+						bbprefix+"busybox cp -f "+binpath+"/* /data/bin/", // copy binaries to system
+						bbprefix+"busybox chmod 755 /data/bin/gzip /data/bin/openssl"+ // set binary executable permissions
+								" /data/bin/scp /data/bin/sftp /data/bin/sftp-server"+
+								" /data/bin/ssh /data/bin/ssh-keygen /data/bin/sshd"+
+								" /data/bin/start-ssh /data/bin/autossh",
+						bbprefix+"busybox mkdir -p /data/ssh/empty", // create privilege separation directory
+						bbprefix+"busybox mkdir /data/.ssh", // create root .ssh directory
+						"if [ ! -f /data/ssh/sshd_config ]; then "+bbprefix+"busybox cp "+etcpath+"/sshd_config /data/ssh/; fi", // copy config file to ssh directory
+						"if [ ! -f /data/ssh/ssh_host_rsa_key ]; then /data/bin/ssh-keygen -f /data/ssh/ssh_host_rsa_key -N '' -t rsa; fi", // create host rsa key
+						"if [ ! -f /data/ssh/ssh_host_dsa_key ]; then /data/bin/ssh-keygen -f /data/ssh/ssh_host_dsa_key -N '' -t dsa; fi", // create host dsa key
+						"if [ ! -f /data/.ssh/id_rsa ]; then /data/bin/ssh-keygen -f /data/.ssh/id_rsa -N '' -t rsa; fi" // create root client rsa key
 				){
 					@Override
 					public void commandOutput(int id, String line){

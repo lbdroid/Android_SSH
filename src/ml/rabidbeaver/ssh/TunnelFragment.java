@@ -198,7 +198,7 @@ public class TunnelFragment extends Fragment {
 			public void onClick(final View v) {
 				Log.d("TUNNELSFRAGMENT","Pressed GENERATE KEYS button");
 				final String tmppath=v.getContext().getApplicationInfo().dataDir+"/files";
-				String cmd = "/system/bin/ssh-keygen -f "+tmppath+"/tmp-id_rsa -t rsa";
+				String cmd = "/data/bin/ssh-keygen -f "+tmppath+"/tmp-id_rsa -t rsa";
 	
 				try {
 					// Get the system environment and convert to String[]

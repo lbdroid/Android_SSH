@@ -39,7 +39,7 @@ public class Tunnel {
 		if (!FileIO.readFromFile2(ctx, id_private_path).equals(uuid))
 			FileIO.writeToFile(ctx, id_private_path, id_private);
 		String pidfile = ctx.getApplicationInfo().dataDir+"/files/"+uuid+".pid";
-		String cmd = "AUTOSSH_PIDFILE="+pidfile+" /system/bin/autossh -M "+Integer.toString(monport)+" -NL "+Integer.toString(localport)+":"+host+":"+Integer.toString(hostport)+" "+username+"@"+sshhost+" -p"+Integer.toString(sshport)+" -i "+ctx.getApplicationInfo().dataDir+"/files/"+id_private_path+" -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no\n";
+		String cmd = "AUTOSSH_PIDFILE="+pidfile+" /data/bin/autossh -M "+Integer.toString(monport)+" -NL "+Integer.toString(localport)+":"+host+":"+Integer.toString(hostport)+" "+username+"@"+sshhost+" -p"+Integer.toString(sshport)+" -i "+ctx.getApplicationInfo().dataDir+"/files/"+id_private_path+" -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no\n";
 		Log.d("TUNNEL",cmd);
 			
 		try {
