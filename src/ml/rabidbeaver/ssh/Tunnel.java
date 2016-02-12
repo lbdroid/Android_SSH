@@ -43,7 +43,7 @@ public class Tunnel {
 		Log.d("TUNNEL",cmd);
 			
 		try {
-			tunnelrunner = Runtime.getRuntime().exec("su --context u:r:system_app:s0");
+			tunnelrunner = Runtime.getRuntime().exec("su");
 			outputStream = new DataOutputStream(tunnelrunner.getOutputStream());
 		    outputStream.writeBytes(cmd);
 		    outputStream.flush();
