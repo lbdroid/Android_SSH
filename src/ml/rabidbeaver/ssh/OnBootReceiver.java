@@ -12,14 +12,15 @@ public class OnBootReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		Log.d("RabidBeaver","Running OnBootReceiver.onReceive()");
 		String s = FileIO.readFromFile(context,"onboot.conf");
 		if (s.contains("true")){
 			if (RootShell.isAccessGiven()){
 				// do root stuff here
-				if (RootShell.isBusyboxAvailable()){
+				//if (RootShell.isBusyboxAvailable()){
 					Command command = new Command(0,
-							"killall -9 sshd",
-							"sleep 1",
+					//		"killall -9 sshd",
+					//		"sleep 1",
 							"/data/bin/sshd"
 					){
 						@Override
@@ -31,7 +32,7 @@ public class OnBootReceiver extends BroadcastReceiver {
 						RootShell.getShell(true).add(command);
 						RootShell.closeShell(true);
 					} catch (Exception e) {}
-				}
+				//}
 			}
 		}
 	}

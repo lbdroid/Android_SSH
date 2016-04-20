@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 
 import com.stericson.RootShell.RootShell;
 import com.stericson.RootShell.execution.Command;
-import com.stericson.RootShell.execution.Shell;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -34,7 +33,6 @@ public class Main extends AppCompatActivity {
 	private TunnelFragment tunnelsFragment;
 	private RelativeLayout optionsList;
 	private boolean pollstate = true;
-	private Shell rshell = null;
 	private String bbprefix = "";
 	private Command cmmd;
 	
